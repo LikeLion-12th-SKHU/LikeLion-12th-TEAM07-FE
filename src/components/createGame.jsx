@@ -21,7 +21,7 @@ import {
     ElementS,
     GameRoom,
     ProfileBack,
-} from '../CssFile/createGameCss.js';
+} from '../Css/createGameCss.js';
 import { useNavigate } from 'react-router-dom';
 import SettingNewGame from './SettingNewGame';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AiFillSound } from 'react-icons/ai';
-import { StyledAudio } from '../CssFile/AudioCss.js';
+import { StyledAudio } from '../Css/AudioCss.js';
 
 const Audio = ({ volume, onVolumeChange }) => {
     const handleVolumeChange = (e) => {

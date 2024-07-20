@@ -11,7 +11,6 @@ export const CreateGameContainer = styled.div`
     gap: 20px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
-
 export const Row1 = styled.div`
     display: flex;
     flex-direction: column;
@@ -60,6 +59,19 @@ export const TextArea = styled.textarea`
     width: 97%;
     height: 183px;
     resize: none;
+`;
+export const Cancel = styled.button`
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover {
+        background-color: #45a049;
+    }
 `;
 
 export const CreateButton = styled.button`

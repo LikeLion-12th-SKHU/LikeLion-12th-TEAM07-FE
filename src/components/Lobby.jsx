@@ -21,7 +21,7 @@ import {
     ElementS,
     ElementRank,
     GameRuleWindow,
-} from '../CssFile/LobbyCss.js';
+} from '../Css/LobbyCss.js';
 const Lobby = () => {
     const [isGameRuleOpen, setIsGameRuleOpen] = useState(false);
     const [isSetting, setIsSetting] = useState(false);

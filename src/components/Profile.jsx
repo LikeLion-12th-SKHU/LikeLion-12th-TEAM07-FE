@@ -3,7 +3,7 @@ import {
     ProfileDetail,
     ProfilePicture,
     ProfileName,
-} from '../CssFile/ProfileCss.js';
+} from '../Css/ProfileCss.js';
 const Profile = ({ user }) => {
     return (
         <ProfileDetail>

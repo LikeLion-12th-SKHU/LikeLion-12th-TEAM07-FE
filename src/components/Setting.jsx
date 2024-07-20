@@ -7,7 +7,7 @@ import {
     ModalContent,
     StyleFont,
     SoundSetting,
-} from '../CssFile/SettingCss.js';
+} from '../Css/SettingCss.js';
 const Setting = ({ onClose, onVolumeChange }) => {
     const [volume, setVolume] = useState(
         parseFloat(localStorage.getItem('volume')) || 1

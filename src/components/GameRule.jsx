@@ -8,7 +8,7 @@ import {
     StyleFont,
     Subheading,
     Content,
-} from '../CssFile/GameRuleCss.js';
+} from '../Css/GameRuleCss.js';
 const GameRule = ({ onClose }) => {
     return (
         <ModalBackground>

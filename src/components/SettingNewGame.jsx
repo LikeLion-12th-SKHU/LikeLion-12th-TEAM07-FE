@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
     CreateGameContainer,
     Row1,
@@ -10,7 +11,8 @@ import {
     InputTitle,
     TextArea,
     CreateButton,
-} from '../CssFile/SettingNewGameCss.js';
+    Cancel,
+} from '../Css/SettingNewGameCss.js';
 
 const SettingNewGame = ({ onCreate, onClose }) => {
     const [gameName, setGameName] = useState('');
@@ -80,7 +82,12 @@ const SettingNewGame = ({ onCreate, onClose }) => {
                     onChange={(e) => setDescription(e.target.value)}
                 />
             </Row3>
-            <CreateButton onClick={handleCreateGame}>방 만들기</CreateButton>
+            <Row2>
+                <Cancel>취소</Cancel>
+                <CreateButton onClick={handleCreateGame}>
+                    방 만들기
+                </CreateButton>
+            </Row2>
         </CreateGameContainer>
     );
 };
