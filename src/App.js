@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Login />
+    </div>
+  );
+}
+
+const imageStyle = {
+  width: "120px",
+  height: "120px",
+};
+
+const image = {
+  width: "200px",
+  height: "100px",
+};
+
+function Login() {
+  return (
+    <div className="login-container">
+      <div className="logo">
+        <img src="/img/logo.png" alt="logo" style={imageStyle} />
+        <img src="img/LikeLiar.png" alt="LikeLiar" style={image} />
+      </div>
+      <button className="login-button kakao">카카오 로그인</button>
+      <button className="login-button google">Google 로그인</button>
+      <button className="login-button guest">게스트로 로그인</button>
     </div>
   );
 }
