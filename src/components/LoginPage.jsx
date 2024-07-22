@@ -5,20 +5,15 @@ import {
   AppContainer,
   LoginContainer,
   LoginButton,
-  Logo,
+  LogoImage,
+  LikeLiarImage,
 } from "../css/LoginPageCss";
-import logoImage from "../assets/logo.png";
-import likeLiarImage from "../assets/LikeLiar.png";
 
-const imageStyle = {
-  width: "120px",
-  height: "120px",
-};
-
-const image = {
-  width: "200px",
-  height: "100px",
-};
+import Logo from "../assets/logo.png";
+import LikeLiar from "../assets/LikeLiar.png";
+import GoogleLoginLogo from "../assets/GoogleLoginLogo.png";
+import KakaLoginLogo from "../assets/KakaoLoginLogo.png";
+import GuestLogin from "../assets/GuestLogin.png";
 
 export default function LoginPage() {
   const [code, setCode] = useState(null);
