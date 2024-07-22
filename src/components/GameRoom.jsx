@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
 import GameRule from './GameRule';
-import Profile from './Profile';
 import EffectSound from './EffectSound';
-import GameRoomList from './GameRoomList'; // 방 목록 컴포넌트
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 import {
     BackGroundColor,
     Container,
@@ -16,46 +15,30 @@ import {
     ElementL,
     ElementR,
     ElementH,
-    ElementS,
-    ElementRank,
     GameRuleWindow,
-} from '../css/LobbyCss.js';
+} from '../css/GameRoom.js';
 
-const Lobby = ({ openSettings, rooms = [] }) => {
+const GameRoom = ({ openSettings }) => {
     const [isGameRuleOpen, setIsGameRuleOpen] = React.useState(false);
     const effectSound = useRef(null);
     const navigate = useNavigate();
+    const location = useLocation();
+    const roomData = location.state || {}; // roomData가 없을 경우를 대비해 빈 객체로 초기화
 
     const openGameRule = () => {
         effectSound.current.playSound();
         setIsGameRuleOpen(true);
     };
+
     const closeGameRule = () => {
         effectSound.current.playSound();
         setIsGameRuleOpen(false);
     };
-    const handleLobbyClick = () => {
+
+    const handleRoomSettingsClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/');
-        }, 150);
-    };
-    const handleCreateGameClick = () => {
-        effectSound.current.playSound();
-        setTimeout(() => {
-            navigate('/create-game');
-        }, 150);
-    };
-    const handleHomeClick = () => {
-        effectSound.current.playSound();
-        setTimeout(() => {
-            navigate('/Home-go');
-        }, 150);
-    };
-    const handleRankingClick = () => {
-        effectSound.current.playSound();
-        setTimeout(() => {
-            navigate('/Ranking-go');
+            navigate('/room-settings', { state: roomData }); // roomData를 state로 전달
         }, 150);
     };
 
@@ -69,31 +52,31 @@ const Lobby = ({ openSettings, rooms = [] }) => {
                 <LobbyBody>
                     <Category>
                         <ProfileBack>
-                            <Profile />
+                            {roomData.playerCount}
+                            <br />
+                            {roomData.name}님의
+                            <br />
+                            <p>게임</p>
                         </ProfileBack>
                         <DetailCategory>
-                            <ElementL onClick={handleLobbyClick}>로비</ElementL>
-                            <ElementR onClick={handleCreateGameClick}>
-                                방 만들기
+                            <ElementL onClick={() => navigate('/')}>
+                                방 나가기
+                            </ElementL>
+                            <ElementR onClick={handleRoomSettingsClick}>
+                                방 설정
                             </ElementR>
-                            <ElementH onClick={handleHomeClick}>
-                                홈으로 가기
-                            </ElementH>
-                            <ElementS
+                            <ElementH
                                 onClick={() => {
                                     effectSound.current.playSound();
                                     openSettings();
                                 }}
                             >
                                 설정
-                            </ElementS>
-                            <ElementRank onClick={handleRankingClick}>
-                                랭킹 보기
-                            </ElementRank>
+                            </ElementH>
                         </DetailCategory>
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
-                    <GameRoomList rooms={rooms} />
+                    {/* <gameDetail></gameDetail> */}
                 </LobbyBody>
             </Container>
             <EffectSound ref={effectSound} />
@@ -102,4 +85,4 @@ const Lobby = ({ openSettings, rooms = [] }) => {
     );
 };
 
-export default Lobby;
+export default GameRoom;
