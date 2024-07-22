@@ -19,6 +19,8 @@ export const Container = styled.div`
     background-color: #ffffff;
     border-radius: 40px;
 `;
+export const ElementRoom = styled.button``;
+
 export const Header = styled.div`
     padding: 20px;
     align-items: center;
@@ -66,6 +68,7 @@ export const ProfileBack = styled.div`
     height: 114px;
     border-bottom-left-radius: 30px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 `;

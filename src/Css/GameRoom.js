@@ -19,6 +19,7 @@ export const Container = styled.div`
     background-color: #ffffff;
     border-radius: 40px;
 `;
+
 export const Header = styled.div`
     padding: 20px;
     align-items: center;
@@ -36,7 +37,6 @@ export const LobbyBody = styled.div`
     width: 100%;
 `;
 
-export const GameRoom = styled.div``;
 export const LogoButton = styled.button`
     font-style: italic;
     font-weight: bold;
@@ -67,6 +67,7 @@ export const ProfileBack = styled.div`
     height: 114px;
     border-bottom-left-radius: 30px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 `;
@@ -217,7 +218,7 @@ export const ElementRank = styled.button`
 `;
 export const GameRuleWindow = styled(FaQuestionCircle)`
     background-color: none;
-    margin-top: 237px;
+    margin-top: 337px;
     margin-left: 20px;
     border: none;
     cursor: pointer;

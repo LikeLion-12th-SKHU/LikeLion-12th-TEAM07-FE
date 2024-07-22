@@ -11,6 +11,19 @@ export const CreateGameContainer = styled.div`
     gap: 20px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
+export const Cancel = styled.div`
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #fff;
+    background-color: #e45151;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover {
+        background-color: #ce4a4a;
+    }
+`;
 export const Row1 = styled.div`
     display: flex;
     flex-direction: column;
@@ -35,7 +48,28 @@ export const Label = styled.label`
 
     font-size: 1.2em;
 `;
+export const CustomSelect = styled.select`
+    padding: 10px 12px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    background-color: #ffffff;
+    cursor: pointer;
+    appearance: none;
+    position: relative;
+    background: #fff;
 
+    &:focus {
+        outline: none;
+        border-color: #4caf50;
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+
+    option {
+        padding: 10px;
+    }
+`;
 export const Input = styled.input`
     padding: 10px;
     font-size: 1em;
@@ -43,6 +77,7 @@ export const Input = styled.input`
     border: 1px solid #ccc;
     width: 90%;
 `;
+
 export const InputTitle = styled.input`
     padding: 10px;
     font-size: 1em;
@@ -59,19 +94,6 @@ export const TextArea = styled.textarea`
     width: 97%;
     height: 183px;
     resize: none;
-`;
-export const Cancel = styled.button`
-    padding: 15px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #fff;
-    background-color: #4caf50;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    &:hover {
-        background-color: #45a049;
-    }
 `;
 
 export const CreateButton = styled.button`

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import GameRule from './GameRule';
-import Profile from './Profile';
 import EffectSound from './EffectSound';
 import {
     BackGroundColor,
@@ -15,10 +14,8 @@ import {
     ElementL,
     ElementR,
     ElementH,
-    ElementS,
-    ElementRank,
     GameRuleWindow,
-} from '../css/LobbyCss.js';
+} from '../css/GameRoom.js';
 import {
     CreateGameContainer,
     Row1,
@@ -44,53 +41,62 @@ const topics = [
     '건강 상태',
 ];
 
-const CreateGame = ({ onCreate, onClose, openSettings }) => {
+const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
     const [isGameRuleOpen, setIsGameRuleOpen] = useState(false);
     const effectSound = useRef(null);
     const navigate = useNavigate();
-    const [gameName, setGameName] = useState('');
-    const [playerCount, setPlayerCount] = useState(2);
-    const [votingTimeLimit, setVotingTimeLimit] = useState(10);
-    const [description, setDescription] = useState('');
-    const [selectedTopic, setSelectedTopic] = useState(topics[0]);
+    const location = useLocation();
+    const roomData = location.state || {}; // 방 데이터 가져오기
 
-    const handleCreateGame = () => {
+    const [gameName, setGameName] = useState(roomData.name || '');
+    const [playerCount, setPlayerCount] = useState(roomData.playerCount || 2);
+    const [votingTimeLimit, setVotingTimeLimit] = useState(
+        roomData.votingTimeLimit || 10
+    );
+    const [description, setDescription] = useState(roomData.description || '');
+    const [selectedTopic, setSelectedTopic] = useState(
+        roomData.topic || topics[0]
+    );
+
+    const handleUpdateGame = () => {
         if (gameName && playerCount && votingTimeLimit) {
-            const newRoom = {
-                id: Date.now(),
+            const updateRoom = {
+                id: roomData.id,
                 name: gameName,
                 playerCount,
                 votingTimeLimit,
                 description,
                 topic: selectedTopic,
             };
-            if (typeof onCreate === 'function') {
-                onCreate(newRoom); // 방 추가
-                navigate(`/room/${newRoom.id}`, { state: newRoom }); // 방의 상세 페이지로 이동
+
+            if (typeof onUpdate === 'function') {
+                try {
+                    onUpdate(updateRoom);
+                    navigate(`/room/${updateRoom.id}`, { state: updateRoom });
+                } catch (error) {
+                    console.error('방 업데이트 중 오류 발생:', error);
+                    alert('방 업데이트 중 오류가 발생했습니다.');
+                }
             } else {
-                console.error('방추가실패');
+                console.error('onUpdate 함수가 정의되지 않았습니다.');
             }
         } else {
             alert('항목들을 모두 입력해주세요.');
         }
     };
 
-    // 게임 룰 열기 핸들러
     const openGameRule = () => {
-        effectSound.current.playSound(); // 이펙트 소리 재생
+        effectSound.current.playSound();
         setIsGameRuleOpen(true);
     };
 
-    // 게임 룰 닫기 핸들러
     const closeGameRule = () => {
-        effectSound.current.playSound(); // 이펙트 소리 재생
+        effectSound.current.playSound();
         setIsGameRuleOpen(false);
     };
 
-    // 설정 열기 핸들러
     const handleOpenSettings = () => {
-        effectSound.current.playSound(); // 이펙트 소리 재생
-        openSettings(); // 전달받은 openSettings 함수 호출
+        effectSound.current.playSound();
     };
 
     return (
@@ -103,26 +109,22 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                 <LobbyBody>
                     <Category>
                         <ProfileBack>
-                            <Profile />
+                            {playerCount}
+                            <br />
+                            {gameName}님의
+                            <br />
+                            <p>게임</p>
                         </ProfileBack>
                         <DetailCategory>
                             <ElementL onClick={() => navigate('/')}>
-                                로비
+                                방 나가기
                             </ElementL>
-                            <ElementR onClick={() => navigate('/create-game')}>
-                                방 만들기
+                            <ElementR onClick={handleOpenSettings}>
+                                방 설정
                             </ElementR>
-                            <ElementH onClick={() => navigate('/Home-go')}>
-                                홈으로 가기
-                            </ElementH>
-                            <ElementS onClick={handleOpenSettings}>
+                            <ElementH onClick={handleOpenSettings}>
                                 설정
-                            </ElementS>
-                            <ElementRank
-                                onClick={() => navigate('/Ranking-go')}
-                            >
-                                랭킹 보기
-                            </ElementRank>
+                            </ElementH>
                         </DetailCategory>
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
@@ -144,6 +146,8 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                                 <Input
                                     id="playerCount"
                                     type="number"
+                                    max="6"
+                                    min="2"
                                     value={playerCount}
                                     onChange={(e) =>
                                         setPlayerCount(Number(e.target.value))
@@ -195,9 +199,9 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                             />
                         </Row3>
                         <Row2>
-                            <Cancel onClick={onClose}>취소</Cancel>
-                            <CreateButton onClick={handleCreateGame}>
-                                방 만들기
+                            <Cancel onClick={() => navigate(-1)}>취소</Cancel>
+                            <CreateButton onClick={handleUpdateGame}>
+                                확인
                             </CreateButton>
                         </Row2>
                     </CreateGameContainer>
@@ -209,4 +213,4 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
     );
 };
 
-export default CreateGame;
+export default RoomSettings;
