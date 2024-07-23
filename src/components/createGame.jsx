@@ -4,6 +4,10 @@ import GameRule from './GameRule';
 import Profile from './Profile';
 import EffectSound from './EffectSound';
 import {
+<<<<<<< HEAD
+=======
+    BackGroundColor,
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     Container,
     Header,
     LogoButton,
@@ -54,6 +58,7 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
     const [selectedTopic, setSelectedTopic] = useState(topics[0]);
 
     const handleCreateGame = () => {
+<<<<<<< HEAD
         effectSound.current.playSound(); // 이펙트 소리 재생
         setTimeout(() => {
             if (gameName && playerCount && votingTimeLimit) {
@@ -75,6 +80,26 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                 alert('항목들을 모두 입력해주세요.');
             }
         }, 140);
+=======
+        if (gameName && playerCount && votingTimeLimit) {
+            const newRoom = {
+                id: Date.now(),
+                name: gameName,
+                playerCount,
+                votingTimeLimit,
+                description,
+                topic: selectedTopic,
+            };
+            if (typeof onCreate === 'function') {
+                onCreate(newRoom); // 방 추가
+                navigate(`/room/${newRoom.id}`, { state: newRoom }); // 방의 상세 페이지로 이동
+            } else {
+                console.error('방추가실패');
+            }
+        } else {
+            alert('항목들을 모두 입력해주세요.');
+        }
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     };
 
     // 게임 룰 열기 핸들러
@@ -94,6 +119,7 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
         effectSound.current.playSound(); // 이펙트 소리 재생
         openSettings(); // 전달받은 openSettings 함수 호출
     };
+<<<<<<< HEAD
     const handleCreateRoomClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
@@ -121,6 +147,12 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
 
     return (
         <>
+=======
+
+    return (
+        <>
+            <BackGroundColor />
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
             <Container>
                 <Header>
                     <LogoButton>LIke Liar</LogoButton>
@@ -131,17 +163,33 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                             <Profile />
                         </ProfileBack>
                         <DetailCategory>
+<<<<<<< HEAD
                             <ElementL onClick={handleLobbyClick}>로비</ElementL>
                             <ElementR onClick={handleCreateRoomClick}>
                                 방 만들기
                             </ElementR>
                             <ElementH onClick={handleHomeClick}>
+=======
+                            <ElementL onClick={() => navigate('/')}>
+                                로비
+                            </ElementL>
+                            <ElementR onClick={() => navigate('/create-game')}>
+                                방 만들기
+                            </ElementR>
+                            <ElementH onClick={() => navigate('/Home-go')}>
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
                                 홈으로 가기
                             </ElementH>
                             <ElementS onClick={handleOpenSettings}>
                                 설정
                             </ElementS>
+<<<<<<< HEAD
                             <ElementRank onClick={handleRankingClick}>
+=======
+                            <ElementRank
+                                onClick={() => navigate('/Ranking-go')}
+                            >
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
                                 랭킹 보기
                             </ElementRank>
                         </DetailCategory>
@@ -165,8 +213,11 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                                 <Input
                                     id="playerCount"
                                     type="number"
+<<<<<<< HEAD
                                     min="2"
                                     max="6"
+=======
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
                                     value={playerCount}
                                     onChange={(e) =>
                                         setPlayerCount(Number(e.target.value))
@@ -218,7 +269,11 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                             />
                         </Row3>
                         <Row2>
+<<<<<<< HEAD
                             <Cancel onClick={handleLobbyClick}>취소</Cancel>
+=======
+                            <Cancel onClick={onClose}>취소</Cancel>
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
                             <CreateButton onClick={handleCreateGame}>
                                 방 만들기
                             </CreateButton>

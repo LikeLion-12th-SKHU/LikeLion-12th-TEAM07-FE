@@ -50,7 +50,11 @@ export const Label = styled.label`
 `;
 export const CustomSelect = styled.select`
     padding: 10px 12px;
+<<<<<<< HEAD
     font-size: 20px;
+=======
+    font-size: 1em;
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 100%;
