@@ -1,3 +1,4 @@
+
 import { styled } from 'styled-components';
 import { FaQuestionCircle } from 'react-icons/fa';
 
@@ -7,14 +8,10 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-<<<<<<< HEAD
-    box-sizing: border-box;
-=======
     border-radius: 40px;
 `;
 
 export const Header = styled.div`
->>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     padding: 20px;
     margin: 0 auto;
 `;
@@ -196,6 +193,7 @@ export const ElementRank = styled.button`
 
     font-size: 20px;
     width: 100%;
+
     height: 60px;
     cursor: pointer;
     border: none;
@@ -220,19 +218,17 @@ export const ElementRank = styled.button`
     }
 `;
 export const GameRuleWindow = styled(FaQuestionCircle)`
-<<<<<<< HEAD
     position: absolute; // 추가
     bottom: 20px; // 추가
     left: 20px; // 추가
     left: 20px;
-=======
     background-color: none;
     margin-top: 337px;
     margin-left: 20px;
     border: none;
->>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     cursor: pointer;
     font-size: 25px;
     background-color: transparent;
     border: none;
+
 `;

@@ -11,10 +11,6 @@ export const Container = styled.div`
     padding: 20px;
     margin: 0 auto;
 `;
-<<<<<<< HEAD
-=======
-export const ElementRoom = styled.button``;
->>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
 
 export const Header = styled.div`
     padding: 20px;

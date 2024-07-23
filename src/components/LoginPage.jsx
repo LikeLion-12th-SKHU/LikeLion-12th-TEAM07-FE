@@ -1,36 +1,98 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 import {
   AppContainer,
   LoginContainer,
   LoginButton,
-  Logo,
+  LogoImage,
+  LikeLiarImage,
 } from "../css/LoginPageCss";
-import logoImage from "../assets/logo.png";
-import likeLiarImage from "../assets/LikeLiar.png";
 
-const imageStyle = {
-  width: "120px",
-  height: "120px",
-};
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.jsx";
 
-const image = {
-  width: "200px",
-  height: "100px",
-};
+import Logo from "../assets/logo.png";
+import LikeLiar from "../assets/LikeLiar.png";
+import GoogleLoginLogo from "../assets/GoogleLoginLogo.png";
+import KakaLoginLogo from "../assets/KakaoLoginLogo.png";
+import GuestLogin from "../assets/GuestLogin.png";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [loginToken, setLoginToken] = useState({
+    accessToken: "",
+    refreshToken: "",
+  });
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    const provider = localStorage.getItem("provider");
+
+    if (code) {
+      getToken(code, provider);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (loginToken.accessToken !== "") {
+      login(loginToken);
+      navigate("/");
+    }
+  }, [navigate, loginToken, login]);
+
+  const kakaoHandleLogin = () => {
+    localStorage.setItem("provider", "kakao");
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
+  };
+
+  const googleHandleLogin = () => {
+    localStorage.setItem("provider", "google");
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code&scope=email profile`;
+  };
+
+  const getToken = async (authCode, provider) => {
+    try {
+      const idTokenResponse = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/${provider}/id-token?code=${authCode}`
+      );
+
+      const tokenResponse = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/${provider}/token`,
+        {
+          authCode: idTokenResponse.data.data,
+        }
+      );
+
+      console.log(tokenResponse);
+
+      if (tokenResponse.data) {
+        setLoginToken(tokenResponse.data.data);
+      }
+    } catch (error) {
+      console.error("토큰을 못가져왔어요...", error);
+    }
+  };
+
   return (
     <AppContainer>
       <LoginContainer>
-        <Logo>
-          <img src={logoImage} alt="logo" style={imageStyle} />
-          <img src={likeLiarImage} alt="LikeLiar" style={image} />
-        </Logo>
-        <LoginButton className="login-button kakao">카카오 로그인</LoginButton>
-        <LoginButton className="login-button google">Google 로그인</LoginButton>
-        <LoginButton className="login-button guest">
-          게스트로 로그인
-        </LoginButton>
+        <LogoImage alt="Logo" src={Logo} />
+        <LikeLiarImage alt="LikeLiar" src={LikeLiar} />
+
+        <LoginButton
+          alt="카카오 로그인"
+          src={KakaLoginLogo}
+          onClick={kakaoHandleLogin}
+        ></LoginButton>
+        <LoginButton
+          alt="구글 로그인"
+          src={GoogleLoginLogo}
+          onClick={googleHandleLogin}
+        ></LoginButton>
+        <LoginButton alt="게스트 로그인" src={GuestLogin}></LoginButton>
       </LoginContainer>
     </AppContainer>
   );
