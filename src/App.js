@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import CreateGame from "./components/createGame";
-import Home from "./components/Home";
-import Lobby from "./components/Lobby";
-import Ranking from "./components/Ranking";
-import AutoAudio from "./components/AutoAudio";
-import Setting from "./components/Setting";
-import GameRoom from "./components/GameRoom";
-import GameRoomList from "./components/GameRoomList";
-import LoginPage from "./components/LoginPage";
-import RoomSettings from "./components/RoomSettings";
+import CreateGame from "./components/createGame"; // 방 만들기
+import Home from "./components/Home"; // 홈
+import Lobby from "./components/Lobby"; // 로비
+import Ranking from "./components/Ranking"; // 랭킹
+import AutoAudio from "./components/AutoAudio"; // 배경음악
+import Setting from "./components/Setting"; // 설정
+import GameRoom from "./components/GameRoom"; // 게임 방
+import GameRoomList from "./components/GameRoomList"; // 게임 방 목록
+import LoginPage from "./components/LoginPage"; // 로그인 페이지
+import RoomSettings from "./components/RoomSettings"; // 방 설정
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   const [volume, setVolume] = useState(
@@ -37,46 +38,48 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/lobby"
-          element={<Lobby openSettings={() => setIsSettingOpen(true)} />}
-        />
-        <Route
-          path="/create-game"
-          element={
-            <CreateGame
-              onCreate={handleCreateGame}
-              openSettings={() => setIsSettingOpen(true)}
-            />
-          }
-        />
-        <Route
-          path="/"
-          element={<Home openSettings={() => setIsSettingOpen(true)} />}
-        />
-        <Route
-          path="/ranking"
-          element={<Ranking openSettings={() => setIsSettingOpen(true)} />}
-        />
-        <Route
-          path="/room/:roomId"
-          element={<GameRoom openSettings={() => setIsSettingOpen(true)} />}
-        />
-        <Route path="/rooms" element={<GameRoomList rooms={rooms} />} />
-        <Route
-          path="/room-settings"
-          element={<RoomSettings onUpdate={handleUpdateRoom} />}
-        />
-      </Routes>
-      <AutoAudio volume={volume} />
-      {isSettingOpen && (
-        <Setting
-          onClose={() => setIsSettingOpen(false)}
-          onVolumeChange={handleVolumeChange}
-        />
-      )}
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/lobby"
+            element={<Lobby openSettings={() => setIsSettingOpen(true)} />}
+          />
+          <Route
+            path="/create-game"
+            element={
+              <CreateGame
+                onCreate={handleCreateGame}
+                openSettings={() => setIsSettingOpen(true)}
+              />
+            }
+          />
+          <Route
+            path="/"
+            element={<Home openSettings={() => setIsSettingOpen(true)} />}
+          />
+          <Route
+            path="/ranking"
+            element={<Ranking openSettings={() => setIsSettingOpen(true)} />}
+          />
+          <Route
+            path="/room/:roomId"
+            element={<GameRoom openSettings={() => setIsSettingOpen(true)} />}
+          />
+          <Route path="/rooms" element={<GameRoomList rooms={rooms} />} />
+          <Route
+            path="/room-settings"
+            element={<RoomSettings onUpdate={handleUpdateRoom} />}
+          />
+        </Routes>
+        <AutoAudio volume={volume} />
+        {isSettingOpen && (
+          <Setting
+            onClose={() => setIsSettingOpen(false)}
+            onVolumeChange={handleVolumeChange}
+          />
+        )}
+      </AuthProvider>
     </Router>
   );
 }

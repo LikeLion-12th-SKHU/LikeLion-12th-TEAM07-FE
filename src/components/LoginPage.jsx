@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 import {
   AppContainer,
   LoginContainer,
@@ -9,6 +9,9 @@ import {
   LikeLiarImage,
 } from "../css/LoginPageCss";
 
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.jsx";
+
 import Logo from "../assets/logo.png";
 import LikeLiar from "../assets/LikeLiar.png";
 import GoogleLoginLogo from "../assets/GoogleLoginLogo.png";
@@ -16,9 +19,12 @@ import KakaLoginLogo from "../assets/KakaoLoginLogo.png";
 import GuestLogin from "../assets/GuestLogin.png";
 
 export default function LoginPage() {
-  const [code, setCode] = useState(null);
-  const [idToken, setIdToken] = useState(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const [loginToken, setLoginToken] = useState({
+    accessToken: "",
+    refreshToken: "",
+  });
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -26,44 +32,47 @@ export default function LoginPage() {
     const provider = localStorage.getItem("provider");
 
     if (code) {
-      setCode(code);
       getToken(code, provider);
     }
-  }, [navigate]);
+  }, []);
+
+  useEffect(() => {
+    if (loginToken.accessToken !== "") {
+      login(loginToken);
+      navigate("/");
+    }
+  }, [navigate, loginToken, login]);
 
   const kakaoHandleLogin = () => {
     localStorage.setItem("provider", "kakao");
-    window.location.href =
-      "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=627aa5c7da11793c0aa31902e4af4051&redirect_uri=http://localhost:3000/login";
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
   };
 
   const googleHandleLogin = () => {
     localStorage.setItem("provider", "google");
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=994954719923-uhpc7edlvk6cnfe25iscnmdsnlbhtpmr.apps.googleusercontent.com&redirect_uri=http://localhost:3000/login&response_type=code&scope=email profile`;
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code&scope=email profile`;
   };
 
   const getToken = async (authCode, provider) => {
     try {
       const idTokenResponse = await axios.get(
-        `http://localhost:8090/api/${provider}/id-token?code=${authCode}`
+        `${process.env.REACT_APP_API_BASE_URL}/${provider}/id-token?code=${authCode}`
       );
-      const idToken = idTokenResponse.data.data;
-      setIdToken(idToken);
 
       const tokenResponse = await axios.post(
-        `http://localhost:8090/api/${provider}/token`,
+        `${process.env.REACT_APP_API_BASE_URL}/${provider}/token`,
         {
-          authCode: idToken,
+          authCode: idTokenResponse.data.data,
         }
       );
 
       console.log(tokenResponse);
 
       if (tokenResponse.data) {
-        navigate("/");
+        setLoginToken(tokenResponse.data.data);
       }
     } catch (error) {
-      console.error("Error fetching token:", error);
+      console.error("토큰을 못가져왔어요...", error);
     }
   };
 
