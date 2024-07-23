@@ -101,10 +101,7 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
 
     return (
         <>
-<<<<<<< HEAD
-=======
             <BackGroundColor />
->>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
             <Container>
                 <Header>
                     <LogoButton>LIke Liar</LogoButton>
@@ -114,13 +111,9 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
                         <ProfileBack>
                             {playerCount}
                             <br />
-<<<<<<< HEAD
-                            {gameName}
-=======
                             {gameName}님의
                             <br />
                             <p>게임</p>
->>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
                         </ProfileBack>
                         <DetailCategory>
                             <ElementL onClick={() => navigate('/')}>
@@ -129,16 +122,12 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
                             <ElementR onClick={handleOpenSettings}>
                                 방 설정
                             </ElementR>
-<<<<<<< HEAD
                             <ElementH
                                 onClick={() => {
                                     effectSound.current.playSound();
                                     openSettings();
                                 }}
                             >
-=======
-                            <ElementH onClick={handleOpenSettings}>
->>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
                                 설정
                             </ElementH>
                         </DetailCategory>
