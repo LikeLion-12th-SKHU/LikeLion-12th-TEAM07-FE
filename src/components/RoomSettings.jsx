@@ -101,7 +101,6 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
 
     return (
         <>
-            <BackGroundColor />
             <Container>
                 <Header>
                     <LogoButton>LIke Liar</LogoButton>
