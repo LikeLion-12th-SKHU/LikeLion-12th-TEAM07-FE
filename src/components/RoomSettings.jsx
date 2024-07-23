@@ -122,7 +122,12 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
                             <ElementR onClick={handleOpenSettings}>
                                 방 설정
                             </ElementR>
-                            <ElementH onClick={handleOpenSettings}>
+                            <ElementH
+                                onClick={() => {
+                                    effectSound.current.playSound();
+                                    openSettings();
+                                }}
+                            >
                                 설정
                             </ElementH>
                         </DetailCategory>

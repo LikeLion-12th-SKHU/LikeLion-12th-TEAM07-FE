@@ -5,9 +5,15 @@ import EffectSound from './EffectSound';
 import GameRoomList from './GameRoomList'; // 방 목록 컴포넌트
 import { useNavigate } from 'react-router-dom';
 import {
+<<<<<<< HEAD
+    Container,
+    Header,
+    GameLIst,
+=======
     BackGroundColor,
     Container,
     Header,
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     LogoButton,
     LobbyBody,
     Category,
@@ -34,34 +40,53 @@ const Lobby = ({ openSettings, rooms = [] }) => {
         effectSound.current.playSound();
         setIsGameRuleOpen(false);
     };
+<<<<<<< HEAD
     const handleLobbyClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/');
-        }, 150);
+        }, 140);
     };
+=======
+
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     const handleCreateGameClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/create-game');
+<<<<<<< HEAD
+        }, 140);
+=======
         }, 150);
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     };
     const handleHomeClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/Home-go');
+<<<<<<< HEAD
+        }, 140);
+=======
         }, 150);
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     };
     const handleRankingClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/Ranking-go');
+<<<<<<< HEAD
+        }, 140);
+    };
+    return (
+        <>
+=======
         }, 150);
     };
 
     return (
         <>
             <BackGroundColor />
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
             <Container>
                 <Header>
                     <LogoButton>LIke Liar</LogoButton>
@@ -72,7 +97,13 @@ const Lobby = ({ openSettings, rooms = [] }) => {
                             <Profile />
                         </ProfileBack>
                         <DetailCategory>
+<<<<<<< HEAD
                             <ElementL onClick={handleLobbyClick}>로비</ElementL>
+=======
+                            <ElementL onClick={() => navigate('/')}>
+                                로비
+                            </ElementL>
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
                             <ElementR onClick={handleCreateGameClick}>
                                 방 만들기
                             </ElementR>
@@ -93,7 +124,13 @@ const Lobby = ({ openSettings, rooms = [] }) => {
                         </DetailCategory>
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
+<<<<<<< HEAD
+                    <GameLIst>
+                        <GameRoomList rooms={rooms} />
+                    </GameLIst>
+=======
                     <GameRoomList rooms={rooms} />
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
                 </LobbyBody>
             </Container>
             <EffectSound ref={effectSound} />

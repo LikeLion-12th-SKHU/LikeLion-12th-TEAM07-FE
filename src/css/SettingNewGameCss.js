@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 export const CreateGameContainer = styled.div`
-    margin: 30px;
-    width: 780px;
-    height: 527px;
+    margin: 20px;
+    width: 950px;
+    height: 700px;
     padding: 30px;
     background-color: #dddddd;
     border-radius: 30px;
@@ -72,7 +72,7 @@ export const CustomSelect = styled.select`
 `;
 export const Input = styled.input`
     padding: 10px;
-    font-size: 1em;
+    font-size: 20px;
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 90%;
@@ -80,7 +80,7 @@ export const Input = styled.input`
 
 export const InputTitle = styled.input`
     padding: 10px;
-    font-size: 1em;
+    font-size: 24px;
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 97%;
@@ -92,7 +92,7 @@ export const TextArea = styled.textarea`
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 97%;
-    height: 183px;
+    height: 340px;
     resize: none;
 `;
 
@@ -104,6 +104,7 @@ export const CreateButton = styled.button`
     background-color: #4caf50;
     border: none;
     border-radius: 10px;
+    
     cursor: pointer;
     &:hover {
         background-color: #45a049;

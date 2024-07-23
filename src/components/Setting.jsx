@@ -24,7 +24,11 @@ const Setting = ({ onClose, onVolumeChange }) => {
         effectSoundRef.current.playSound();
         setTimeout(() => {
             onClose();
+<<<<<<< HEAD
+        });
+=======
         }, 200);
+>>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     };
     return (
         <>

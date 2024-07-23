@@ -19,6 +19,11 @@ function App() {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [rooms, setRooms] = useState([]);
 
+    const handleCreateGame = (newRoom) => {
+        setRooms((prevRooms) => [...prevRooms, { ...newRoom, id: Date.now() }]);
+        console.log('새로운 방이 생성:', newRoom);
+    };
+  
   const handleVolumeChange = (newVolume) => {
     setVolume(newVolume);
     localStorage.setItem("volume", newVolume);
@@ -29,58 +34,67 @@ function App() {
     console.log("새로운 방이 생성:", newRoom);
   };
 
-  const handleUpdateRoom = (updatedRoom) => {
-    setRooms((prevRooms) =>
-      prevRooms.map((room) => (room.id === updatedRoom.id ? updatedRoom : room))
-    );
-    console.log("업데이트 방 정보:", updatedRoom);
-  };
-
-  return (
-    <Router>
-      <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/lobby"
-            element={<Lobby openSettings={() => setIsSettingOpen(true)} />}
-          />
-          <Route
-            path="/create-game"
-            element={
-              <CreateGame
-                onCreate={handleCreateGame}
-                openSettings={() => setIsSettingOpen(true)}
-              />
-            }
-          />
-          <Route
-            path="/"
-            element={<Home openSettings={() => setIsSettingOpen(true)} />}
-          />
-          <Route
-            path="/ranking"
-            element={<Ranking openSettings={() => setIsSettingOpen(true)} />}
-          />
-          <Route
-            path="/room/:roomId"
-            element={<GameRoom openSettings={() => setIsSettingOpen(true)} />}
-          />
-          <Route path="/rooms" element={<GameRoomList rooms={rooms} />} />
-          <Route
-            path="/room-settings"
-            element={<RoomSettings onUpdate={handleUpdateRoom} />}
-          />
-        </Routes>
-        <AutoAudio volume={volume} />
-        {isSettingOpen && (
-          <Setting
-            onClose={() => setIsSettingOpen(false)}
-            onVolumeChange={handleVolumeChange}
-          />
-        )}
-      </AuthProvider>
-    </Router>
+    return (
+        <Router>
+          <AuthProvider>
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route
+                    path="/"
+                    element={
+                        <Lobby
+                            openSettings={() => setIsSettingOpen(true)}
+                            rooms={rooms}
+                        />
+                    }
+                />
+                <Route
+                    path="/create-game"
+                    element={
+                        <CreateGame
+                            onCreate={handleCreateGame}
+                            openSettings={() => setIsSettingOpen(true)}
+                        />
+                    }
+                />
+                <Route
+                    path="/Home-go"
+                    element={
+                        <Home openSettings={() => setIsSettingOpen(true)} />
+                    }
+                />
+                <Route
+                    path="/Ranking-go"
+                    element={
+                        <Ranking openSettings={() => setIsSettingOpen(true)} />
+                    }
+                />
+                <Route
+                    path="/room/:roomId"
+                    element={
+                        <GameRoom openSettings={() => setIsSettingOpen(true)} />
+                    }
+                />
+                <Route path="/rooms" element={<GameRoomList rooms={rooms} />} />
+                <Route
+                    path="/room-settings"
+                    element={
+                        <RoomSettings
+                            openSettings={() => setIsSettingOpen(true)}
+                            onUpdate={handleUpdateRoom}
+                        />
+                    }
+                />
+            </Routes>
+            <AutoAudio volume={volume} />
+            {isSettingOpen && (
+                <Setting
+                    onClose={() => setIsSettingOpen(false)}
+                    onVolumeChange={handleVolumeChange}
+                />
+            )}
+          </AuthProvider> 
+     </Router>
   );
 }
 
