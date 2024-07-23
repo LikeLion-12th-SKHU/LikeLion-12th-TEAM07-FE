@@ -5,7 +5,7 @@ export const Container = styled.div`
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
-    background-color: #f0f0f0;
+    /* background-color: #f0f0f0; */
     margin: 2% 2% 0 2%;
     max-height: 720px;
     overflow-y: auto; /* 수직 스크롤 가능 */

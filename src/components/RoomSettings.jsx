@@ -151,7 +151,7 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
                                     id="playerCount"
                                     type="number"
                                     max="6"
-                                    min="2"
+                                    min="3"
                                     value={playerCount}
                                     onChange={(e) =>
                                         setPlayerCount(Number(e.target.value))

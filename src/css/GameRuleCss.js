@@ -44,6 +44,7 @@ export const Subheading = styled.div`
     font-size: 27px;
     font-weight: bold;
     margin: 20px;
+    font-family: 'RixInooAriDuriR';
 `;
 
 export const Content = styled.div`

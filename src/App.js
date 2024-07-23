@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CreateGame from './components/createGame'; // 방 만들기
 import Home from './components/Home'; // 홈
@@ -11,12 +11,15 @@ import GameRoomList from './components/GameRoomList'; // 게임 방 목록
 import LoginPage from './components/LoginPage'; // 로그인 페이지
 import RoomSettings from './components/RoomSettings'; // 방 설정
 import { AuthProvider } from './contexts/AuthContext';
+
 function App() {
     const [volume, setVolume] = useState(
         parseFloat(localStorage.getItem('volume')) || 1
     );
     const [isSettingOpen, setIsSettingOpen] = useState(false);
     const [rooms, setRooms] = useState([]);
+    const [controlMusic, setControlMusic] = useState(true);
+    const backgroundMusicRef = useRef(null);
 
     const handleVolumeChange = (newVolume) => {
         setVolume(newVolume);
@@ -25,7 +28,6 @@ function App() {
 
     const handleCreateGame = (newRoom) => {
         setRooms((prevRooms) => [...prevRooms, { ...newRoom, id: Date.now() }]);
-
         console.log('새로운 방이 생성:', newRoom);
     };
 
@@ -44,7 +46,7 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<LoginPage />} />
                     <Route
-                        path="/"
+                        path="/lobby"
                         element={
                             <Lobby
                                 openSettings={() => setIsSettingOpen(true)}
@@ -62,16 +64,22 @@ function App() {
                         }
                     />
                     <Route
-                        path="/Home-go"
+                        path="/"
                         element={
-                            <Home openSettings={() => setIsSettingOpen(true)} />
+                            <Home
+                                setBackgroundMusic={(status) =>
+                                    setControlMusic(status)
+                                }
+                            />
                         }
                     />
                     <Route
-                        path="/Ranking-go"
+                        path="/ranking"
                         element={
                             <Ranking
-                                openSettings={() => setIsSettingOpen(true)}
+                                setBackgroundMusic={(status) =>
+                                    setControlMusic(status)
+                                }
                             />
                         }
                     />
@@ -97,7 +105,9 @@ function App() {
                         }
                     />
                 </Routes>
-                <AutoAudio volume={volume} />
+                {controlMusic && (
+                    <AutoAudio ref={backgroundMusicRef} volume={volume} />
+                )}
                 {isSettingOpen && (
                     <Setting
                         onClose={() => setIsSettingOpen(false)}

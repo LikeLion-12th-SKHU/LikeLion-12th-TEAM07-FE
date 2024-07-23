@@ -7,9 +7,9 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    box-sizing: border-box;
-    padding: 20px;
+    border-radius: 40px;
     margin: 0 auto;
+    padding: 20px;
 `;
 
 export const Header = styled.div`

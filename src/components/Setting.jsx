@@ -11,9 +11,12 @@ import {
     SoundSetting,
 } from '../css/SettingCss.js';
 const Setting = ({ onClose, onVolumeChange }) => {
+    const initialVolume = parseFloat(localStorage.getItem('volume'));
+
     const [volume, setVolume] = useState(
-        parseFloat(localStorage.getItem('volume')) || 1
+        isNaN(initialVolume) ? 1 : initialVolume
     );
+
     const effectSoundRef = useRef(null);
 
     useEffect(() => {
@@ -24,7 +27,7 @@ const Setting = ({ onClose, onVolumeChange }) => {
         effectSoundRef.current.playSound();
         setTimeout(() => {
             onClose();
-        });
+        }, 140);
     };
     return (
         <>
