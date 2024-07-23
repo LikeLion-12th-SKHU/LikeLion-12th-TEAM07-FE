@@ -1,25 +1,16 @@
-import { styled, createGlobalStyle } from 'styled-components';
+import { styled } from 'styled-components';
 import { FaQuestionCircle } from 'react-icons/fa';
 
-export const BackGroundColor = createGlobalStyle`
-    body {
-        background-color: #d5d5d5;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-`;
 export const Container = styled.div`
-    margin: 50px auto 0;
-    width: 1083px;
-    height: 716px;
+    width: 1280px;
+    height: 832px;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background-color: #ffffff;
-    border-radius: 40px;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 0 auto;
 `;
-export const ElementRoom = styled.button``;
 
 export const Header = styled.div`
     padding: 20px;
@@ -37,7 +28,6 @@ export const LobbyBody = styled.div`
     height: 100%;
     width: 100%;
 `;
-
 export const LogoButton = styled.button`
     font-style: italic;
     font-weight: bold;
@@ -50,13 +40,17 @@ export const LogoButton = styled.button`
     margin: 0;
 `;
 export const Category = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    width: 181px;
-    height: 646px;
+    width: 200px;
+    height: 802px;
     box-shadow: 10px 0px 20px rgba(0, 0, 0, 0.2);
     border-bottom-left-radius: 40px;
+    & > * {
+        margin: 0;
+    }
 `;
 export const ProfileBack = styled.div`
     background-image: linear-gradient(
@@ -65,24 +59,21 @@ export const ProfileBack = styled.div`
         rgb(224, 130, 42)
     );
     width: 100%;
-    height: 114px;
+    height: 160px;
     border-bottom-left-radius: 30px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 `;
-
 export const DetailCategory = styled.div`
     display: flex;
     flex-direction: column;
 `;
 export const ElementL = styled.button`
     font-weight: bold;
-
     font-size: 20px;
     width: 100%;
-    height: 50px;
+    height: 60px;
     cursor: pointer;
     border: none;
     border-top-left-radius: 10px;
@@ -109,7 +100,7 @@ export const ElementR = styled.button`
 
     font-size: 20px;
     width: 100%;
-    height: 50px;
+    height: 60px;
     cursor: pointer;
     border: none;
     border-top-left-radius: 10px;
@@ -137,7 +128,7 @@ export const ElementH = styled.button`
 
     font-size: 20px;
     width: 100%;
-    height: 50px;
+    height: 60px;
     cursor: pointer;
     border: none;
     border-top-left-radius: 10px;
@@ -165,7 +156,7 @@ export const ElementS = styled.button`
 
     font-size: 20px;
     width: 100%;
-    height: 50px;
+    height: 60px;
     cursor: pointer;
     border: none;
 
@@ -194,7 +185,7 @@ export const ElementRank = styled.button`
 
     font-size: 20px;
     width: 100%;
-    height: 50px;
+    height: 60px;
     cursor: pointer;
     border: none;
     border-top-left-radius: 10px;
@@ -218,10 +209,15 @@ export const ElementRank = styled.button`
     }
 `;
 export const GameRuleWindow = styled(FaQuestionCircle)`
-    background-color: none;
-    margin-top: 237px;
-    margin-left: 20px;
-    border: none;
+    position: absolute; // 추가
+    bottom: 20px; // 추가
+    left: 20px; // 추가
+    left: 20px;
     cursor: pointer;
     font-size: 25px;
+    background-color: transparent;
+    border: none;
+`;
+export const GameLIst = styled.div`
+    width: 1030px;
 `;

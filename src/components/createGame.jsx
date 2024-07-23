@@ -4,7 +4,6 @@ import GameRule from './GameRule';
 import Profile from './Profile';
 import EffectSound from './EffectSound';
 import {
-    BackGroundColor,
     Container,
     Header,
     LogoButton,
@@ -55,24 +54,27 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
     const [selectedTopic, setSelectedTopic] = useState(topics[0]);
 
     const handleCreateGame = () => {
-        if (gameName && playerCount && votingTimeLimit) {
-            const newRoom = {
-                id: Date.now(),
-                name: gameName,
-                playerCount,
-                votingTimeLimit,
-                description,
-                topic: selectedTopic,
-            };
-            if (typeof onCreate === 'function') {
-                onCreate(newRoom); // 방 추가
-                navigate(`/room/${newRoom.id}`, { state: newRoom }); // 방의 상세 페이지로 이동
+        effectSound.current.playSound(); // 이펙트 소리 재생
+        setTimeout(() => {
+            if (gameName && playerCount && votingTimeLimit) {
+                const newRoom = {
+                    id: Date.now(),
+                    name: gameName,
+                    playerCount,
+                    votingTimeLimit,
+                    description,
+                    topic: selectedTopic,
+                };
+                if (typeof onCreate === 'function') {
+                    onCreate(newRoom); // 방 추가
+                    navigate(`/room/${newRoom.id}`, { state: newRoom }); // 방의 상세 페이지로 이동
+                } else {
+                    console.error('방추가실패');
+                }
             } else {
-                console.error('방추가실패');
+                alert('항목들을 모두 입력해주세요.');
             }
-        } else {
-            alert('항목들을 모두 입력해주세요.');
-        }
+        }, 140);
     };
 
     // 게임 룰 열기 핸들러
@@ -96,29 +98,29 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/create-game');
-        }, 150);
+        }, 140);
     };
     const handleLobbyClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/');
-        }, 150);
+        }, 140);
     };
     const handleHomeClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/Home-go');
-        }, 150);
+        }, 140);
     };
     const handleRankingClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/Ranking-go');
-        }, 150);
+        }, 140);
     };
+
     return (
         <>
-            <BackGroundColor />
             <Container>
                 <Header>
                     <LogoButton>LIke Liar</LogoButton>
@@ -163,6 +165,8 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                                 <Input
                                     id="playerCount"
                                     type="number"
+                                    min="2"
+                                    max="6"
                                     value={playerCount}
                                     onChange={(e) =>
                                         setPlayerCount(Number(e.target.value))
@@ -214,7 +218,7 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                             />
                         </Row3>
                         <Row2>
-                            <Cancel onClick={onClose}>취소</Cancel>
+                            <Cancel onClick={handleLobbyClick}>취소</Cancel>
                             <CreateButton onClick={handleCreateGame}>
                                 방 만들기
                             </CreateButton>

@@ -24,7 +24,7 @@ function App() {
     };
 
     const handleCreateGame = (newRoom) => {
-        setRooms((prevRooms) => [...prevRooms, newRoom]);
+        setRooms((prevRooms) => [...prevRooms, { ...newRoom, id: Date.now() }]);
         console.log('새로운 방이 생성:', newRoom);
     };
 
@@ -44,7 +44,10 @@ function App() {
                 <Route
                     path="/"
                     element={
-                        <Lobby openSettings={() => setIsSettingOpen(true)} />
+                        <Lobby
+                            openSettings={() => setIsSettingOpen(true)}
+                            rooms={rooms}
+                        />
                     }
                 />
                 <Route
@@ -77,7 +80,12 @@ function App() {
                 <Route path="/rooms" element={<GameRoomList rooms={rooms} />} />
                 <Route
                     path="/room-settings"
-                    element={<RoomSettings onUpdate={handleUpdateRoom} />}
+                    element={
+                        <RoomSettings
+                            openSettings={() => setIsSettingOpen(true)}
+                            onUpdate={handleUpdateRoom}
+                        />
+                    }
                 />
             </Routes>
             <AutoAudio volume={volume} />

@@ -5,9 +5,9 @@ import EffectSound from './EffectSound';
 import GameRoomList from './GameRoomList'; // 방 목록 컴포넌트
 import { useNavigate } from 'react-router-dom';
 import {
-    BackGroundColor,
     Container,
     Header,
+    GameLIst,
     LogoButton,
     LobbyBody,
     Category,
@@ -38,30 +38,28 @@ const Lobby = ({ openSettings, rooms = [] }) => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/');
-        }, 150);
+        }, 140);
     };
     const handleCreateGameClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/create-game');
-        }, 150);
+        }, 140);
     };
     const handleHomeClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/Home-go');
-        }, 150);
+        }, 140);
     };
     const handleRankingClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/Ranking-go');
-        }, 150);
+        }, 140);
     };
-
     return (
         <>
-            <BackGroundColor />
             <Container>
                 <Header>
                     <LogoButton>LIke Liar</LogoButton>
@@ -93,7 +91,9 @@ const Lobby = ({ openSettings, rooms = [] }) => {
                         </DetailCategory>
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
-                    <GameRoomList rooms={rooms} />
+                    <GameLIst>
+                        <GameRoomList rooms={rooms} />
+                    </GameLIst>
                 </LobbyBody>
             </Container>
             <EffectSound ref={effectSound} />
