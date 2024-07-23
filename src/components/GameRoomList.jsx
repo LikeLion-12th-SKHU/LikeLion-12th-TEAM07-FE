@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -48,26 +47,6 @@ const GameRoomList = ({ rooms }) => {
                 <div></div>
             )}
         </Container>
-=======
-import React from 'react';
-import { Link } from 'react-router-dom';
-
-const GameRoomList = ({ rooms }) => {
-    return (
-        <div>
-            <ul>
-                {rooms.length > 0 ? (
-                    rooms.map((room, index) => (
-                        <li key={index}>
-                            <Link to={`/room/${index}`}>{room.name}</Link>
-                        </li>
-                    ))
-                ) : (
-                    <br />
-                )}
-            </ul>
-        </div>
->>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
     );
 };
 

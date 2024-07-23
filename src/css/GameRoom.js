@@ -1,4 +1,3 @@
-
 import { styled } from 'styled-components';
 import { FaQuestionCircle } from 'react-icons/fa';
 
@@ -11,10 +10,6 @@ export const Container = styled.div`
     border-radius: 40px;
 `;
 
-export const Header = styled.div`
-    padding: 20px;
-    margin: 0 auto;
-`;
 export const Information = styled.div``;
 export const Header = styled.div`
    padding: 20px;
@@ -162,31 +157,31 @@ export const ElementH = styled.button`
 export const ElementS = styled.button`
     font-weight: bold;
 
-font-size: 20px;
-width: 100%;
-height: 60px;
-cursor: pointer;
-border: none;
+    font-size: 20px;
+    width: 100%;
+    height: 60px;
+    cursor: pointer;
+    border: none;
 
-border-top-left-radius: 10px;
-border-bottom-left-radius: 10px;
-background-image: linear-gradient(
-    to right bottom,
-    rgb(50, 182, 95),
-    rgb(35, 131, 67)
-);
-box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-transition: all 0.3s ease;
-transform-origin: right;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(50, 182, 95),
+        rgb(35, 131, 67)
+    );
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    transform-origin: right;
 
-&:hover {
-    background-color: #e0e0e0;
-    transform: scaleX(0.9); // 마우스를 올렸을 때 줄어드는 효과
-}
+    &:hover {
+        background-color: #e0e0e0;
+        transform: scaleX(0.9); // 마우스를 올렸을 때 줄어드는 효과
+    }
 
-&:active {
-    transform: scaleX(0.8); /ㄴ/ 클릭 시 더 줄어드는 효과
-}
+    &:active {
+        transform: scaleX(0.8); // 클릭 시 더 줄어드는 효과
+    }
 `;
 export const ElementRank = styled.button`
     font-weight: bold;
@@ -230,5 +225,4 @@ export const GameRuleWindow = styled(FaQuestionCircle)`
     font-size: 25px;
     background-color: transparent;
     border: none;
-
 `;

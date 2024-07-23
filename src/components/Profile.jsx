@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     ProfileDetail,
-<<<<<<< HEAD
     ProfileName,
     Icons,
     Content1,
@@ -36,16 +35,6 @@ const Profile = ({ user }) => {
                 </InfoContainer>
                 <LoginButton>{isGuest ? '로그인 >' : '로그아웃'}</LoginButton>
             </Container>
-=======
-    ProfilePicture,
-    ProfileName,
-} from '../css/ProfileCss.js';
-const Profile = ({ user }) => {
-    return (
-        <ProfileDetail>
-            <ProfilePicture />
-            <ProfileName></ProfileName>
->>>>>>> b7e3053cb4bc170b979189bf3334373aacf648a6
         </ProfileDetail>
     );
 };
