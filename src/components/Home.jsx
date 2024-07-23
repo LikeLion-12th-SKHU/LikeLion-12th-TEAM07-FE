@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   MainContainer,
   LogoContainer,
@@ -17,8 +18,8 @@ import {
   Description,
   Circle,
   RankingImage,
-  RankingTitleContainer, // 추가된 컨테이너
-} from "../css/HomeCss"; // 스타일 정의 파일 import
+  RankingTitleContainer,
+} from "../css/HomeCss";
 
 const rankings = [
   { rank: 1, nickname: "giwoong", score: 265, games: 265 },
@@ -29,6 +30,8 @@ const rankings = [
 ];
 
 const RankingBoard = () => {
+  const navigate = useNavigate();
+
   return (
     <MainContainer>
       <Circle style={{ top: "50px", left: "20px" }} />
@@ -36,12 +39,16 @@ const RankingBoard = () => {
       <Circle style={{ bottom: "150px", left: "200px" }} />
 
       <LogoContainer>
-        <LogoImage alt="LikeLiarimage" src="img/LikeLiarnn.png" />
+        <LogoImage
+          alt="LikeLiarimage"
+          src="img/LikeLiarnn.png"
+          onClick={() => navigate("/")}
+        />
         <Header>
           <h1>
-            <NavLinks>회원가입</NavLinks>
-            <NavLinks>로그인</NavLinks>
-            <NavLinks>랭킹</NavLinks>
+            <NavLinks onClick={() => navigate("/login")}>회원가입</NavLinks>
+            <NavLinks onClick={() => navigate("/login")}>로그인</NavLinks>
+            <NavLinks onClick={() => navigate("/ranking")}>랭킹</NavLinks>
           </h1>
         </Header>
       </LogoContainer>
@@ -52,12 +59,16 @@ const RankingBoard = () => {
           <br />
           친구들과 함께 재밌게 배우세요!
         </Description>
-        <Button>라이어 찾으러 가기</Button>
+        <Button onClick={() => navigate("/lobby")}>라이어 찾으러 가기</Button>
       </LogoContainer2>
       <RankingSection>
         <RankingTitleContainer>
           <RankingTitle>랭킹</RankingTitle>
-          <RankingImage alt="RankingImage" src="img/Vector.png" />
+          <RankingImage
+            alt="RankingImage"
+            src="img/Vector.png"
+            onClick={() => navigate("/ranking")}
+          />
         </RankingTitleContainer>
         <RankingTable>
           <thead>

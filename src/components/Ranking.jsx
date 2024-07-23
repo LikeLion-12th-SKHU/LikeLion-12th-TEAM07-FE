@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   MainContainer,
   LogoContainer,
@@ -10,11 +11,10 @@ import {
   RankingTable,
   TableHeader,
   TableCell,
-  Button,
   Footer,
   PaginationButton,
   RankingTitleContainer,
-} from "../css/RankingCss"; // 스타일 정의 파일 import
+} from "../css/RankingCss"; // 기존의 CSS 그대로 사용
 
 const allRankings = [
   { rank: 1, nickname: "giwoong", score: 265, games: 265 },
@@ -43,9 +43,16 @@ const ITEMS_PER_PAGE = 10;
 
 const RankingPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
+
+  const totalPages = Math.ceil(allRankings.length / ITEMS_PER_PAGE);
+  const rankings = allRankings.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   const handleNextPage = () => {
-    if (currentPage * ITEMS_PER_PAGE < allRankings.length) {
+    if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -56,42 +63,25 @@ const RankingPage = () => {
     }
   };
 
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentRankings = allRankings.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE
-  );
-
   return (
     <MainContainer>
       <LogoContainer>
-        <LogoImage alt="LikeLiarimage" src="img/LikeLiarnn.png" />
+        <LogoImage
+          alt="LikeLiarimage"
+          src="img/LikeLiarnn.png"
+          onClick={() => navigate("/")}
+        />
         <Header>
           <h1>
-            <NavLinks>회원가입</NavLinks>
-            <NavLinks>로그인</NavLinks>
-            <NavLinks>랭킹</NavLinks>
+            <NavLinks onClick={() => navigate("/login")}>회원가입</NavLinks>
+            <NavLinks onClick={() => navigate("/login")}>로그인</NavLinks>
+            <NavLinks onClick={() => navigate("/ranking")}>랭킹</NavLinks>
           </h1>
         </Header>
       </LogoContainer>
-
       <RankingSection>
         <RankingTitleContainer>
-          <RankingTitle>라이크라이어 랭킹</RankingTitle>
-          <div>
-            <PaginationButton
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-            >
-              이전 페이지
-            </PaginationButton>
-            <PaginationButton
-              onClick={handleNextPage}
-              disabled={currentPage * ITEMS_PER_PAGE >= allRankings.length}
-            >
-              다음 페이지
-            </PaginationButton>
-          </div>
+          <RankingTitle>랭킹</RankingTitle>
         </RankingTitleContainer>
         <RankingTable>
           <thead>
@@ -103,7 +93,7 @@ const RankingPage = () => {
             </tr>
           </thead>
           <tbody>
-            {currentRankings.map((user) => (
+            {rankings.map((user) => (
               <tr key={user.rank}>
                 <TableCell>{user.rank}</TableCell>
                 <TableCell>{user.nickname}</TableCell>
@@ -113,8 +103,11 @@ const RankingPage = () => {
             ))}
           </tbody>
         </RankingTable>
+        <div>
+          <PaginationButton onClick={handlePreviousPage}>이전</PaginationButton>
+          <PaginationButton onClick={handleNextPage}>다음</PaginationButton>
+        </div>
       </RankingSection>
-
       <Footer>
         <p>성공회대 7팀</p>
         <p>비즈니스 문의 yurim0725@naver.com</p>
