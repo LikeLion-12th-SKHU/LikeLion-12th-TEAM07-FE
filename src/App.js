@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CreateGame from "./components/createGame"; // 방 만들기
 import Home from "./components/Home"; // 홈
@@ -11,12 +11,16 @@ import GameRoomList from "./components/GameRoomList"; // 게임 방 목록
 import LoginPage from "./components/LoginPage"; // 로그인 페이지
 import RoomSettings from "./components/RoomSettings"; // 방 설정
 import { AuthProvider } from "./contexts/AuthContext";
+import MyPage from "./components/MyPage";
+
 function App() {
   const [volume, setVolume] = useState(
     parseFloat(localStorage.getItem("volume")) || 1
   );
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [rooms, setRooms] = useState([]);
+  const [controlMusic, setControlMusic] = useState(true);
+  const backgroundMusicRef = useRef(null);
 
   const handleVolumeChange = (newVolume) => {
     setVolume(newVolume);
@@ -34,14 +38,13 @@ function App() {
     );
     console.log("업데이트 방 정보:", updatedRoom);
   };
-
   return (
     <Router>
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route
-            path="/"
+            path="/lobby"
             element={
               <Lobby
                 openSettings={() => setIsSettingOpen(true)}
@@ -59,12 +62,18 @@ function App() {
             }
           />
           <Route
-            path="/Home-go"
-            element={<Home openSettings={() => setIsSettingOpen(true)} />}
+            path="/"
+            element={
+              <Home setBackgroundMusic={(status) => setControlMusic(status)} />
+            }
           />
           <Route
-            path="/Ranking-go"
-            element={<Ranking openSettings={() => setIsSettingOpen(true)} />}
+            path="/ranking"
+            element={
+              <Ranking
+                setBackgroundMusic={(status) => setControlMusic(status)}
+              />
+            }
           />
           <Route
             path="/room/:roomId"
@@ -80,8 +89,9 @@ function App() {
               />
             }
           />
+          <Route path="/mypage" element={<MyPage />}></Route>
         </Routes>
-        <AutoAudio volume={volume} />
+        {controlMusic && <AutoAudio ref={backgroundMusicRef} volume={volume} />}
         {isSettingOpen && (
           <Setting
             onClose={() => setIsSettingOpen(false)}
@@ -92,5 +102,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;
