@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import GameRule from './GameRule';
 import EffectSound from './EffectSound';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -55,7 +55,7 @@ const GameRoom = ({ openSettings }) => {
                             {roomData.name}
                         </ProfileBack>
                         <DetailCategory>
-                            <ElementL onClick={() => navigate('/')}>
+                            <ElementL onClick={() => navigate('/lobby')}>
                                 방 나가기
                             </ElementL>
                             <ElementR onClick={handleRoomSettingsClick}>

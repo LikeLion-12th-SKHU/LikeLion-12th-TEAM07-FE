@@ -8,6 +8,8 @@ export const Container = styled.div`
     flex-direction: column;
     background-color: #ffffff;
     border-radius: 40px;
+    margin: 0 auto;
+    padding: 20px;
 `;
 
 export const Information = styled.div``;

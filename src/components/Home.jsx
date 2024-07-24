@@ -1,43 +1,56 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import EffectSound from './EffectSound';
+
 import {
-  MainContainer,
-  LogoContainer,
-  LogoImage,
-  Header,
-  NavLinks,
-  RankingSection,
-  RankingTitle,
-  RankingTable,
-  TableHeader,
-  TableCell,
-  Button,
-  Footer,
-  LogoContainer2,
-  LogoImage2,
-  Description,
-  Circle,
-  RankingImage,
-  RankingTitleContainer,
-} from "../css/HomeCss";
+    MainContainer,
+    LogoContainer,
+    LogoImage,
+    Header,
+    NavLinks,
+    RankingSection,
+    RankingTitle,
+    RankingTable,
+    TableHeader,
+    TableCell,
+    Button,
+    Footer,
+    LogoContainer2,
+    LogoImage2,
+    Description,
+    Circle,
+    RankingImage,
+    RankingTitleContainer,
+} from '../css/HomeCss';
 
 const rankings = [
-  { rank: 1, nickname: "giwoong", score: 265, games: 265 },
-  { rank: 2, nickname: "mubin", score: 263, games: 263 },
-  { rank: 3, nickname: "yurim", score: 261, games: 261 },
-  { rank: 4, nickname: "seoyun", score: 259, games: 259 },
-  { rank: 5, nickname: "likelion", score: 230, games: 230 },
+    { rank: 1, nickname: 'giwoong', score: 265, games: 265 },
+    { rank: 2, nickname: 'mubin', score: 263, games: 263 },
+    { rank: 3, nickname: 'yurim', score: 261, games: 261 },
+    { rank: 4, nickname: 'seoyun', score: 259, games: 259 },
+    { rank: 5, nickname: 'likelion', score: 230, games: 230 },
 ];
 
-const RankingBoard = () => {
-  const navigate = useNavigate();
+const RankingBoard = ({ setBackgroundMusic }) => {
+    const effectSound = useRef(null);
 
-  return (
-    <MainContainer>
-      <Circle style={{ top: "50px", left: "20px" }} />
-      <Circle style={{ top: "200px", right: "20px" }} />
-      <Circle style={{ bottom: "150px", left: "200px" }} />
-
+    const navigate = useNavigate();
+    useEffect(() => {
+        setBackgroundMusic(false);
+        return () => setBackgroundMusic(true);
+    }, [setBackgroundMusic]);
+    const handleLobbyClick = () => {
+        effectSound.current.playSound();
+        setTimeout(() => {
+            navigate('/lobby');
+        }, 140);
+    };
+    return (
+        <>
+            <MainContainer>
+                <Circle style={{ top: '50px', left: '20px' }} />
+                <Circle style={{ top: '200px', right: '20px' }} />
+                <Circle style={{ bottom: '150px', left: '200px' }} />
       <LogoContainer>
         <LogoImage
           alt="LikeLiarimage"
@@ -93,12 +106,14 @@ const RankingBoard = () => {
         </RankingTable>
       </RankingSection>
 
-      <Footer>
-        <p>성공회대 7팀</p>
-        <p>비즈니스 문의 yurim0725@naver.com</p>
-      </Footer>
-    </MainContainer>
-  );
+                <Footer>
+                    <p>성공회대 7팀</p>
+                    <p>비즈니스 문의 yurim0725@naver.com</p>
+                </Footer>
+            </MainContainer>
+            <EffectSound ref={effectSound} />
+        </>
+    );
 };
 
 export default RankingBoard;

@@ -14,7 +14,7 @@ export const ModalBackground = styled.div`
 `;
 
 export const ModalContent = styled.div`
-    width: 60%;
+    width: 870px;
     background: white;
     position: relative;
     border-radius: 20px;

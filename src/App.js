@@ -25,7 +25,6 @@ function App() {
 
   const handleCreateGame = (newRoom) => {
     setRooms((prevRooms) => [...prevRooms, { ...newRoom, id: Date.now() }]);
-
     console.log("새로운 방이 생성:", newRoom);
   };
 
