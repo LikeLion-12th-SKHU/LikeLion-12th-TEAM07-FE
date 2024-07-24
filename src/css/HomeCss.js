@@ -26,6 +26,7 @@ export const LogoContainer = styled.div`
   align-items: center; /* 수직 가운데 정렬 */
   justify-content: space-between; /* 양 끝으로 정렬 */
   margin: 20px 40px; /* 마진 조정 */
+  cursor: pointer;
 `;
 
 export const LogoImage = styled.img`
@@ -155,4 +156,5 @@ export const RankingImage = styled.img`
   max-width: 30px; /* 이미지 너비 설정 */
   height: auto;
   margin-left: 10px; /* 제목과 이미지 사이의 간격 설정 */
+  cursor: pointer;
 `;
