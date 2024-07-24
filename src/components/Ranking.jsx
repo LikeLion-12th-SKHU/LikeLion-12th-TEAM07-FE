@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     MainContainer,
@@ -41,8 +41,12 @@ const allRankings = [
 
 const ITEMS_PER_PAGE = 10;
 
-const RankingPage = () => {
+const RankingPage = ({ setBackgroundMusic }) => {
     const [currentPage, setCurrentPage] = useState(1);
+    useEffect(() => {
+        setBackgroundMusic(false); 
+        return () => setBackgroundMusic(true);
+    }, [setBackgroundMusic]);
     const navigate = useNavigate();
 
     const totalPages = Math.ceil(allRankings.length / ITEMS_PER_PAGE);

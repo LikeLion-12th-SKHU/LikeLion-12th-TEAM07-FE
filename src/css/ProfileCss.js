@@ -16,6 +16,7 @@ export const Icons = styled(IoPersonSharp)`
     width: 80px;
     height: 80px;
     margin-top: 20px;
+    margin-left: 10px;
 `;
 
 export const ProfileName = styled.div`
@@ -23,7 +24,7 @@ export const ProfileName = styled.div`
     flex-direction: row;
     font-weight: bold;
     margin-top: 20px;
-    margin-bottom: 0px;
+    margin-bottom: -5.5px;
     padding: 0px;
 `;
 export const Content1 = styled.div`
@@ -36,8 +37,11 @@ export const Content2 = styled.div`
 export const LoginButton = styled.button`
     border: none;
     cursor: pointer;
-
+    margin-top: 6.5px;
+    background-color: #ffffff;
+    margin-left: 30px;
     font-size: 13px;
+
     &:hover {
         background-color: #e0e0e0;
     }
@@ -51,4 +55,6 @@ export const Container = styled.div`
 `;
 export const Ranking = styled.div``;
 export const Score = styled.div``;
-export const InfoContainer = styled.div``;
+export const InfoContainer = styled.div`
+    margin-left: 0px;
+`;

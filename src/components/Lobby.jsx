@@ -4,6 +4,7 @@ import Profile from './Profile';
 import EffectSound from './EffectSound';
 import GameRoomList from './GameRoomList'; // 방 목록 컴포넌트
 import { useNavigate } from 'react-router-dom';
+
 import {
     Container,
     Header,
@@ -37,7 +38,7 @@ const Lobby = ({ openSettings, rooms = [] }) => {
     const handleLobbyClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/');
+            navigate('/lobby');
         }, 140);
     };
     const handleCreateGameClick = () => {
@@ -49,13 +50,13 @@ const Lobby = ({ openSettings, rooms = [] }) => {
     const handleHomeClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/Home-go');
+            navigate('/');
         }, 140);
     };
     const handleRankingClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/Ranking-go');
+            navigate('/ranking');
         }, 140);
     };
     return (

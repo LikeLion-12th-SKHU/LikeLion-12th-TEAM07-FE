@@ -103,19 +103,19 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
     const handleLobbyClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/');
+            navigate('/lobby');
         }, 140);
     };
     const handleHomeClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/Home-go');
+            navigate('/');
         }, 140);
     };
     const handleRankingClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/Ranking-go');
+            navigate('/ranking');
         }, 140);
     };
 

@@ -1,5 +1,8 @@
+// LoginPage.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 import {
     AppContainer,
@@ -8,9 +11,6 @@ import {
     LogoImage,
     LikeLiarImage,
 } from '../css/LoginPageCss';
-
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext.jsx';
 
 import Logo from '../assets/logo.png';
 import LikeLiar from '../assets/LikeLiar.png';
@@ -37,11 +37,11 @@ export default function LoginPage() {
     }, []);
 
     useEffect(() => {
-        if (loginToken.accessToken !== '') {
+        if (loginToken.accessToken) {
             login(loginToken);
             navigate('/');
         }
-    }, [navigate, loginToken, login]);
+    }, [loginToken, login, navigate]);
 
     const kakaoHandleLogin = () => {
         localStorage.setItem('provider', 'kakao');
@@ -58,7 +58,6 @@ export default function LoginPage() {
             const idTokenResponse = await axios.get(
                 `${process.env.REACT_APP_API_BASE_URL}/${provider}/id-token?code=${authCode}`
             );
-
             const tokenResponse = await axios.post(
                 `${process.env.REACT_APP_API_BASE_URL}/${provider}/token`,
                 {
@@ -66,13 +65,11 @@ export default function LoginPage() {
                 }
             );
 
-            console.log(tokenResponse);
-
             if (tokenResponse.data) {
                 setLoginToken(tokenResponse.data.data);
             }
         } catch (error) {
-            console.error('토큰을 못가져왔어요...', error);
+            console.error('토큰을 가져오는데 실패했습니다.', error);
         }
     };
 
@@ -81,18 +78,17 @@ export default function LoginPage() {
             <LoginContainer>
                 <LogoImage alt="Logo" src={Logo} />
                 <LikeLiarImage alt="LikeLiar" src={LikeLiar} />
-
                 <LoginButton
                     alt="카카오 로그인"
                     src={KakaLoginLogo}
                     onClick={kakaoHandleLogin}
-                ></LoginButton>
+                />
                 <LoginButton
                     alt="구글 로그인"
                     src={GoogleLoginLogo}
                     onClick={googleHandleLogin}
-                ></LoginButton>
-                <LoginButton alt="게스트 로그인" src={GuestLogin}></LoginButton>
+                />
+                <LoginButton alt="게스트 로그인" src={GuestLogin} />
             </LoginContainer>
         </AppContainer>
     );
