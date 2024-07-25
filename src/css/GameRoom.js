@@ -12,7 +12,94 @@ export const Container = styled.div`
     padding: 20px;
 `;
 
-export const Information = styled.div``;
+export const MiniTitle = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    font-weight: bold;
+    font-size: 30px;
+    padding-left: 20px;
+
+    background-color: #cccccc;
+    height: 50px;
+`;
+export const Des = styled.div`
+    display: flex;
+    justify-content: left;
+    padding: 20px;
+    align-items: center;
+`;
+
+export const Description = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 370px;
+    width: 936px;
+    position: relative;
+    top: -10px; /* 요소를 위로 이동 */
+    border-radius: 40px;
+    background-color: #e7e7e7;
+`;
+export const Button = styled.div`
+    display: flex;
+    margin: 30px;
+    height: 100px;
+    width: 400px;
+
+    flex-direction: row;
+`;
+export const ReadyButton = styled.button`
+    cursor: pointer;
+    width: 180px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    font-size: 30px;
+    background-color: #ff7710;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+
+    &:active {
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+        transform: translateY(2px);
+    }
+`;
+export const StartButton = styled.button`
+    cursor: pointer;
+    margin-left: 40px;
+    width: 180px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 30px;
+    background-color: #39a0cc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+
+    &:active {
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(2px);
+    }
+`;
+export const User = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    column-gap: 30px;
+    height: 350px;
+    width: 100%;
+    margin-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+`;
+export const Information = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 2% 2% 0 2%;
+    width: 1026px;
+
+    height: 770px;
+    justify-content: center;
+    align-items: center;
+`;
 export const Header = styled.div`
    padding: 20px;
     align-items: center;

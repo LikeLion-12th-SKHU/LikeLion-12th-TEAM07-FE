@@ -2,10 +2,12 @@ import React, { useRef } from 'react';
 import GameRule from './GameRule';
 import EffectSound from './EffectSound';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import Player from '../components/Player';
 import {
     Container,
     Header,
+    User,
+    Des,
     LogoButton,
     LobbyBody,
     Category,
@@ -16,6 +18,11 @@ import {
     ElementH,
     GameRuleWindow,
     Information,
+    Description,
+    ReadyButton,
+    MiniTitle,
+    Button,
+    StartButton,
 } from '../css/GameRoom.js';
 
 const GameRoom = ({ openSettings }) => {
@@ -34,7 +41,12 @@ const GameRoom = ({ openSettings }) => {
         effectSound.current.playSound();
         setIsGameRuleOpen(false);
     };
-
+    const gameStartClick = () => {
+        effectSound.current.playSound();
+        setTimeout(() => {
+            navigate('/game-start');
+        }, 140);
+    };
     const handleRoomSettingsClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
@@ -72,7 +84,21 @@ const GameRoom = ({ openSettings }) => {
                         </DetailCategory>
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
-                    <Information></Information>
+                    <Information>
+                        <User>
+                            <Player />
+                        </User>
+                        <Description>
+                            <MiniTitle>방 설명</MiniTitle>
+                            <Des>{roomData.description}</Des>
+                        </Description>
+                        <Button>
+                            <ReadyButton>준비 6/6</ReadyButton>
+                            <StartButton onClick={gameStartClick}>
+                                게임 시작
+                            </StartButton>
+                        </Button>
+                    </Information>
                 </LobbyBody>
             </Container>
             <EffectSound ref={effectSound} />
