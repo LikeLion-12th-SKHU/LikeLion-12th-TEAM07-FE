@@ -11,8 +11,8 @@ import GameRoomList from './components/GameRoomList'; // 게임 방 목록
 import LoginPage from './components/LoginPage'; // 로그인 페이지
 import RoomSettings from './components/RoomSettings'; // 방 설정
 import { AuthProvider } from './contexts/AuthContext';
-import GameStart from './components/GameStart';
 import MyPage from './components/MyPage';
+import GameStart from './components/GameStart';
 
 function App() {
     const [volume, setVolume] = useState(
@@ -42,11 +42,49 @@ function App() {
         console.log('업데이트 방 정보:', updatedRoom);
     };
 
+    const handleIncrementPlayerCount = (roomId) => {
+        setRooms((prevRooms) =>
+            prevRooms.map((room) =>
+                room.id === roomId
+                    ? {
+                          ...room,
+                          playerCount: Math.min(
+                              room.playerCount + 1,
+                              room.maxPlayerCount
+                          ),
+                      }
+                    : room
+            )
+        );
+    };
+
+    const handleDecrementPlayerCount = (roomId) => {
+        setRooms((prevRooms) =>
+            prevRooms.map((room) =>
+                room.id === roomId
+                    ? {
+                          ...room,
+                          playerCount: Math.max(room.playerCount - 1, 0),
+                      }
+                    : room
+            )
+        );
+    };
+
     return (
         <Router>
             <AuthProvider>
                 <Routes>
-                    <Route path="/login" element={<LoginPage />} />
+                    <Route
+                        path="/login"
+                        element={
+                            <LoginPage
+                                setBackgroundMusic={(status) =>
+                                    setControlMusic(status)
+                                }
+                            />
+                        }
+                    />
                     <Route
                         path="/lobby"
                         element={
@@ -75,6 +113,7 @@ function App() {
                             />
                         }
                     />
+                    <Route path="/game-start" element={<GameStart />} />
                     <Route
                         path="/ranking"
                         element={
@@ -90,12 +129,20 @@ function App() {
                         element={
                             <GameRoom
                                 openSettings={() => setIsSettingOpen(true)}
+                                onIncrement={handleIncrementPlayerCount}
+                                onDecrement={handleDecrementPlayerCount}
                             />
                         }
                     />
                     <Route
                         path="/rooms"
-                        element={<GameRoomList rooms={rooms} />}
+                        element={
+                            <GameRoomList
+                                rooms={rooms}
+                                onIncrement={handleIncrementPlayerCount}
+                                onDecrement={handleDecrementPlayerCount}
+                            />
+                        }
                     />
                     <Route
                         path="/room-settings"
@@ -106,14 +153,7 @@ function App() {
                             />
                         }
                     />
-                    <Route
-                        path="/game-start"
-                        element={
-                            <GameStart
-                                openSettings={() => setIsSettingOpen(true)}
-                            />
-                        }
-                    />
+                    <Route path="/mypage" element={<MyPage />}></Route>
                 </Routes>
                 {controlMusic && (
                     <AutoAudio ref={backgroundMusicRef} volume={volume} />
@@ -127,70 +167,6 @@ function App() {
             </AuthProvider>
         </Router>
     );
-    console.log("업데이트 방 정보:", updatedRoom);
-  };
-  return (
-    <Router>
-      <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route
-            path="/lobby"
-            element={
-              <Lobby
-                openSettings={() => setIsSettingOpen(true)}
-                rooms={rooms}
-              />
-            }
-          />
-          <Route
-            path="/create-game"
-            element={
-              <CreateGame
-                onCreate={handleCreateGame}
-                openSettings={() => setIsSettingOpen(true)}
-              />
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <Home setBackgroundMusic={(status) => setControlMusic(status)} />
-            }
-          />
-          <Route
-            path="/ranking"
-            element={
-              <Ranking
-                setBackgroundMusic={(status) => setControlMusic(status)}
-              />
-            }
-          />
-          <Route
-            path="/room/:roomId"
-            element={<GameRoom openSettings={() => setIsSettingOpen(true)} />}
-          />
-          <Route path="/rooms" element={<GameRoomList rooms={rooms} />} />
-          <Route
-            path="/room-settings"
-            element={
-              <RoomSettings
-                openSettings={() => setIsSettingOpen(true)}
-                onUpdate={handleUpdateRoom}
-              />
-            }
-          />
-          <Route path="/mypage" element={<MyPage />}></Route>
-        </Routes>
-        {controlMusic && <AutoAudio ref={backgroundMusicRef} volume={volume} />}
-        {isSettingOpen && (
-          <Setting
-            onClose={() => setIsSettingOpen(false)}
-            onVolumeChange={handleVolumeChange}
-          />
-        )}
-      </AuthProvider>
-    </Router>
-  );
 }
+
 export default App;
