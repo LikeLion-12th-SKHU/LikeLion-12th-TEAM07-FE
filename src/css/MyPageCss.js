@@ -139,3 +139,13 @@ export const BackButton = styled.button`
     background-color: #ff8c00;
   }
 `;
+
+export const Circle = styled.div`
+  width: 200px; /* 크기 조정 */
+  height: 200px; /* 크기 조정 */
+  background-color: rgba(255, 199, 134, 0.3); /* #FFC786 색상, 투명도 30% */
+  border-radius: 50%;
+  position: absolute;
+  z-index: -1; /* 다른 요소 뒤에 위치하도록 설정 */
+  filter: blur(20px); /* 블러 효과 추가 */
+`;
