@@ -1,13 +1,153 @@
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { FaQuestionCircle } from 'react-icons/fa';
+import backGround from '../assets/backImage.png';
+import { PiWarningCircleFill } from 'react-icons/pi';
 
-export const Element1 = styled.button`
+export const WarningIcons = styled(PiWarningCircleFill)`
+    width: 40px;
+    height: auto;
+    color: #d42030;
+    margin-right: 10px;
+`;
+export const Num = styled.div`
+    font-size: 50px;
+    margin-left: 20px;
+    font-weight: bold;
+`;
+export const Topic = styled.div`
+    font-size: 50px;
+    margin-right: 120px;
+    margin-left: 100px;
+    font-weight: bold;
+`;
+export const Sub = styled.div`
+    display: flex;
+    width: 80%;
+    height: 60%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: bold;
+`;
+
+export const subContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: 40px;
+`;
+
+export const SubStance = styled.div`
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 40px;
+
+    width: 94%;
+    height: 66%;
+    background-color: #dddddd;
+    margin-left: 3%;
+    .subBody1 {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: row;
+        margin-left: 40px;
+        position: relative;
+        left: -380px;
+        margin-right: 10px;
+    }
+    .subBody2 {
+        font-size: 30px;
+        font-weight: bold;
+        color: #2da756;
+    }
+    .subBody3 {
+        position: relative;
+        bottom: -8px;
+        font-weight: bold;
+
+        font-size: 20px;
+    }
+    .subBody4 {
+        font-weight: bold;
+    }
+`;
+export const WarningText = styled.div`
+    font-size: 25px;
+    font-weight: bold;
+    flex-direction: row;
+`;
+export const After = styled.div`
+    .AfterClick {
+        width: 1014px;
+        height: 484px;
+        border-radius: 35px;
+        background-color: #a7a7a7;
+        flex-direction: column;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+`;
+export const AfterClickContents = styled.div`
+    width: 100%;
+    height: 100%;
+    background-color: #eeeeee;
+    border-radius: 35px;
+`;
+export const TopicAndNum = styled.div`
+    margin-top: 15px;
+    width: 94%;
+    margin-left: 3%;
+    height: 20%;
+    /* background-color: #ffffff; */
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    .image {
+        width: 55px;
+        margin-right: -90px;
+        margin-left: 10px;
+    }
+`;
+
+export const Warning = styled.div`
+    padding-left: 0;
+    flex-direction: row;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 94%;
+    margin-left: 3%;
+    margin-top: 2%;
+    height: 10%;
+    background-color: none;
+`;
+export const ClockIcon = styled.div`
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+        lightgrey ${(props) => props.progress}%,
+        #2f3233 0%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const Element1 = styled.div`
     font-weight: bold;
     font-size: 20px;
-    width: 100%;
+    width: 30%;
     height: 60px;
-    cursor: pointer;
     border: none;
+    align-items: center;
+    display: flex;
+    justify-content: center;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     background-image: linear-gradient(
@@ -18,24 +158,16 @@ export const Element1 = styled.button`
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     transform-origin: right;
-
-    &:hover {
-        background-color: #e0e0e0;
-        transform: scaleX(0.9); // 마우스를 올렸을 때 줄어드는 효과
-    }
-
-    &:active {
-        transform: scaleX(0.8); // 클릭 시 더 줄어드는 효과
-    }
 `;
-export const Element2 = styled.button`
+export const Element2 = styled.div`
     font-weight: bold;
-
     font-size: 20px;
-    width: 100%;
+    width: 30%;
     height: 60px;
-    cursor: pointer;
     border: none;
+    align-items: center;
+    display: flex;
+    justify-content: center;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     background-image: linear-gradient(
@@ -46,21 +178,14 @@ export const Element2 = styled.button`
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     transform-origin: right;
-
-    &:hover {
-        background-color: #e0e0e0;
-        transform: scaleX(0.9); // 마우스를 올렸을 때 줄어드는 효과
-    }
-
-    &:active {
-        transform: scaleX(0.8); // 클릭 시 더 줄어드는 효과
-    }
 `;
-export const Element3 = styled.button`
+export const Element3 = styled.div`
     font-weight: bold;
-
+    align-items: center;
+    display: flex;
+    justify-content: center;
     font-size: 20px;
-    width: 100%;
+    width: 30%;
     height: 60px;
     cursor: pointer;
     border: none;
@@ -74,23 +199,15 @@ export const Element3 = styled.button`
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     transform-origin: right;
-
-    &:hover {
-        background-color: #e0e0e0;
-        transform: scaleX(0.9);
-    }
-
-    &:active {
-        transform: scaleX(0.8);
-    }
 `;
-export const Element4 = styled.button`
+export const Element4 = styled.div`
     font-weight: bold;
-
+    align-items: center;
+    display: flex;
+    justify-content: center;
     font-size: 20px;
-    width: 100%;
+    width: 30%;
     height: 60px;
-    cursor: pointer;
     border: none;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -102,23 +219,15 @@ export const Element4 = styled.button`
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     transform-origin: right;
-
-    &:hover {
-        background-color: #e0e0e0;
-        transform: scaleX(0.9); // 마우스를 올렸을 때 줄어드는 효과
-    }
-
-    &:active {
-        transform: scaleX(0.8); // 클릭 시 더 줄어드는 효과
-    }
 `;
-export const Element5 = styled.button`
+export const Element5 = styled.div`
     font-weight: bold;
-
     font-size: 20px;
-    width: 100%;
+    width: 30%;
     height: 60px;
-    cursor: pointer;
+    align-items: center;
+    display: flex;
+    justify-content: center;
     border: none;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -131,25 +240,134 @@ export const Element5 = styled.button`
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     transform-origin: right;
-
-    &:hover {
-        background-color: #e0e0e0;
-        transform: scaleX(0.9); // 마우스를 올렸을 때 줄어드는 효과
-    }
-
-    &:active {
-        transform: scaleX(0.8); // 클릭 시 더 줄어드는 효과
-    }
 `;
-export const Screen = styled.div``;
-export const SuggestedWord = styled.div``;
-export const Element6 = styled.button`
+export const PlayerId = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
     font-weight: bold;
-
     font-size: 20px;
+`;
+export const Screen = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(${backGround});
+    width: 1100px;
+    height: 802px;
+    padding: 0;
+`;
+export const Content = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    right: -55px;
+    font-size: 20px;
+    width: 50%;
+    height: 100%;
+    font-size: 50px;
+    font-weight: bold;
+`;
+export const Ele = styled.div`
+    display: flex;
+    flex-direction: row;
     width: 100%;
     height: 60px;
+
+    background-color: #dddddd;
+    padding: 0;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+`;
+export const Title = styled.div`
+    display: flex;
+    padding-left: 15px;
+    width: 17%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    height: 100%;
+    font-size: 50px;
+    font-weight: bold;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(231, 148, 85),
+        rgb(193, 91, 13)
+    );
+    box-shadow: 6px 0px 2px rgba(0, 0, 0, 0.3);
+`;
+export const SuggestedWord = styled.div`
+    padding-left: 0;
+    display: flex;
+    flex-direction: row;
+
+    width: 94%;
+
+    margin-left: 3%;
+    margin-top: 3%;
+    height: 14%;
+    border-radius: 30px;
+    background-color: #ffffff;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
+`;
+export const CheckTopicButton = styled.div`
+    display: flex;
     cursor: pointer;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 300px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 40px;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(50, 182, 95),
+        rgb(43, 158, 81)
+    );
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+
+    &:active {
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(2px);
+    }
+`;
+
+export const SuggestedWordCheck = styled.div`
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    margin-left: 3%;
+    margin-top: 3%;
+    height: 60%;
+    width: 93.5%;
+    border-radius: 40px;
+    background-color: #e0e0e0;
+
+    border: 7px solid black; /* 두께, 스타일, 색상 */
+`;
+
+export const Element6 = styled.div`
+    font-weight: bold;
+    font-size: 20px;
+    width: 30%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 60px;
     border: none;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -161,15 +379,26 @@ export const Element6 = styled.button`
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     transform-origin: right;
-
-    &:hover {
-        background-color: #e0e0e0;
-        transform: scaleX(0.9); // 마우스를 올렸을 때 줄어드는 효과
-    }
-
-    &:active {
-        transform: scaleX(0.8); // 클릭 시 더 줄어드는 효과
-    }
+`;
+export const Element7 = styled.div`
+    font-weight: bold;
+    font-size: 20px;
+    width: 30%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 60px;
+    border: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(221, 221, 221),
+        rgb(181, 181, 181)
+    );
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    transform-origin: right;
 `;
 export const GameRuleWindow = styled(FaQuestionCircle)`
     position: absolute; // 추가

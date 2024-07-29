@@ -4,8 +4,12 @@ import {
     Container,
     ContainerButton,
     Name,
-    PlayCount,
+    Logo,
+    PlayerCount,
+    NameContainer,
 } from '../css/GameList.js';
+import logoImage from '../assets/logo.png';
+
 import useInfiniteScroll from '../hooks/useInfiniteScroll.js';
 
 const GameRoomList = ({ rooms }) => {
@@ -39,8 +43,17 @@ const GameRoomList = ({ rooms }) => {
                         key={room.id}
                         onClick={() => handleJoinRoom(room)}
                     >
-                        <Name>{room.name}</Name>
-                        <PlayCount>{room.playerCount}</PlayCount>
+                        <NameContainer>
+                            <Logo>
+                                <img
+                                    className="logo"
+                                    src={logoImage}
+                                    alt="LikeLiar"
+                                />
+                            </Logo>
+                            <Name>{room.name}</Name>
+                        </NameContainer>
+                        <PlayerCount>1 / {room.playerCount} 명 </PlayerCount>
                     </ContainerButton>
                 ))
             ) : (

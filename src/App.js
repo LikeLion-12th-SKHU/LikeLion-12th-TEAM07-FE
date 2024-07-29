@@ -42,35 +42,6 @@ function App() {
         console.log('업데이트 방 정보:', updatedRoom);
     };
 
-    const handleIncrementPlayerCount = (roomId) => {
-        setRooms((prevRooms) =>
-            prevRooms.map((room) =>
-                room.id === roomId
-                    ? {
-                          ...room,
-                          playerCount: Math.min(
-                              room.playerCount + 1,
-                              room.maxPlayerCount
-                          ),
-                      }
-                    : room
-            )
-        );
-    };
-
-    const handleDecrementPlayerCount = (roomId) => {
-        setRooms((prevRooms) =>
-            prevRooms.map((room) =>
-                room.id === roomId
-                    ? {
-                          ...room,
-                          playerCount: Math.max(room.playerCount - 1, 0),
-                      }
-                    : room
-            )
-        );
-    };
-
     return (
         <Router>
             <AuthProvider>
@@ -129,20 +100,12 @@ function App() {
                         element={
                             <GameRoom
                                 openSettings={() => setIsSettingOpen(true)}
-                                onIncrement={handleIncrementPlayerCount}
-                                onDecrement={handleDecrementPlayerCount}
                             />
                         }
                     />
                     <Route
                         path="/rooms"
-                        element={
-                            <GameRoomList
-                                rooms={rooms}
-                                onIncrement={handleIncrementPlayerCount}
-                                onDecrement={handleDecrementPlayerCount}
-                            />
-                        }
+                        element={<GameRoomList rooms={rooms} />}
                     />
                     <Route
                         path="/room-settings"

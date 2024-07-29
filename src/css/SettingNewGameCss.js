@@ -1,6 +1,9 @@
 import styled from 'styled-components';
+import backGround from '../assets/backImage.png';
+
 export const CreateGameContainer = styled.div`
-    margin: 20px;
+    margin-left: 30px;
+    margin-top: 20px;
     width: 950px;
     height: 700px;
     padding: 30px;
@@ -10,6 +13,14 @@ export const CreateGameContainer = styled.div`
     flex-direction: column;
     gap: 20px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+`;
+export const Count = styled.div`
+    width: 1100px;
+    height: 802px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(${backGround});
 `;
 export const Cancel = styled.div`
     padding: 15px;
@@ -88,7 +99,7 @@ export const InputTitle = styled.input`
 
 export const TextArea = styled.textarea`
     padding: 10px;
-    font-size: 1em;
+    font-size: 2em;
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 97%;
@@ -104,7 +115,7 @@ export const CreateButton = styled.button`
     background-color: #4caf50;
     border: none;
     border-radius: 10px;
-    
+
     cursor: pointer;
     &:hover {
         background-color: #45a049;

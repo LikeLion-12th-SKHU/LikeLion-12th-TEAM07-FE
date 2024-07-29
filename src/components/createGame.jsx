@@ -26,6 +26,7 @@ import {
     DetailBox,
     Label,
     Input,
+    Count,
     InputTitle,
     TextArea,
     CreateButton,
@@ -48,7 +49,7 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
     const effectSound = useRef(null);
     const navigate = useNavigate();
     const [gameName, setGameName] = useState('');
-    const [playerCount, setPlayerCount] = useState(2);
+    const [playerCount, setPlayerCount] = useState(3);
     const [votingTimeLimit, setVotingTimeLimit] = useState(10);
     const [description, setDescription] = useState('');
     const [selectedTopic, setSelectedTopic] = useState(topics[0]);
@@ -66,8 +67,8 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                     topic: selectedTopic,
                 };
                 if (typeof onCreate === 'function') {
-                    onCreate(newRoom); // 방 추가
-                    navigate(`/room/${newRoom.id}`, { state: newRoom }); // 방의 상세 페이지로 이동
+                    onCreate(newRoom);
+                    navigate(`/room/${newRoom.id}`, { state: newRoom });
                 } else {
                     console.error('방추가실패');
                 }
@@ -77,22 +78,19 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
         }, 140);
     };
 
-    // 게임 룰 열기 핸들러
     const openGameRule = () => {
-        effectSound.current.playSound(); // 이펙트 소리 재생
+        effectSound.current.playSound();
         setIsGameRuleOpen(true);
     };
 
-    // 게임 룰 닫기 핸들러
     const closeGameRule = () => {
-        effectSound.current.playSound(); // 이펙트 소리 재생
+        effectSound.current.playSound();
         setIsGameRuleOpen(false);
     };
 
-    // 설정 열기 핸들러
     const handleOpenSettings = () => {
-        effectSound.current.playSound(); // 이펙트 소리 재생
-        openSettings(); // 전달받은 openSettings 함수 호출
+        effectSound.current.playSound();
+        openSettings();
     };
     const handleCreateRoomClick = () => {
         effectSound.current.playSound();
@@ -147,83 +145,100 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                         </DetailCategory>
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
-                    <CreateGameContainer>
-                        <Row1>
-                            <Label htmlFor="gameName">방 제목</Label>
-                            <InputTitle
-                                id="gameName"
-                                type="text"
-                                placeholder="10글자 이내"
-                                maxLength={10}
-                                value={gameName}
-                                onChange={(e) => setGameName(e.target.value)}
-                            />
-                        </Row1>
-                        <Row2>
-                            <DetailBox>
-                                <Label htmlFor="playerCount">플레이어 수</Label>
-                                <Input
-                                    id="playerCount"
-                                    type="number"
-                                    min="2"
-                                    max="6"
-                                    value={playerCount}
+                    <Count>
+                        <CreateGameContainer>
+                            <Row1>
+                                <Label htmlFor="gameName">방 제목</Label>
+                                <InputTitle
+                                    id="gameName"
+                                    type="text"
+                                    placeholder="7글자 이내"
+                                    maxLength={7}
+                                    value={gameName}
                                     onChange={(e) =>
-                                        setPlayerCount(Number(e.target.value))
+                                        setGameName(e.target.value)
                                     }
                                 />
-                            </DetailBox>
-                            <DetailBox>
-                                <Label htmlFor="votingTimeLimit">
-                                    투표 시간(초)
+                            </Row1>
+                            <Row2>
+                                <DetailBox>
+                                    <Label htmlFor="playerCount">
+                                        플레이어 수
+                                    </Label>
+                                    <Input
+                                        id="playerCount"
+                                        type="number"
+                                        min="3"
+                                        max="6"
+                                        value={playerCount}
+                                        onChange={(e) =>
+                                            setPlayerCount(
+                                                Number(e.target.value)
+                                            )
+                                        }
+                                    />
+                                </DetailBox>
+                                <DetailBox>
+                                    <Label htmlFor="votingTimeLimit">
+                                        투표 시간(초)
+                                    </Label>
+                                    <Input
+                                        id="votingTimeLimit"
+                                        type="number"
+                                        min="10"
+                                        max="15"
+                                        value={votingTimeLimit}
+                                        onChange={(e) => {
+                                            const value = Math.max(
+                                                10,
+                                                Math.min(
+                                                    15,
+                                                    Number(e.target.value)
+                                                )
+                                            );
+                                            setVotingTimeLimit(value);
+                                        }}
+                                    />
+                                </DetailBox>
+                                <DetailBox>
+                                    <Label htmlFor="topic">주제</Label>
+                                    <CustomSelect
+                                        id="topic-select"
+                                        value={selectedTopic}
+                                        onChange={(e) =>
+                                            setSelectedTopic(e.target.value)
+                                        }
+                                    >
+                                        {topics.map((topic) => (
+                                            <option key={topic} value={topic}>
+                                                {topic}
+                                            </option>
+                                        ))}
+                                    </CustomSelect>
+                                </DetailBox>
+                            </Row2>
+                            <Row3>
+                                <Label htmlFor="description">
+                                    게임방 설명 ( 최대 700자 )
                                 </Label>
-                                <Input
-                                    id="votingTimeLimit"
-                                    type="number"
-                                    min="10"
-                                    max="15"
-                                    value={votingTimeLimit}
-                                    onChange={(e) => {
-                                        const value = Math.max(
-                                            10,
-                                            Math.min(15, Number(e.target.value))
-                                        );
-                                        setVotingTimeLimit(value);
-                                    }}
-                                />
-                            </DetailBox>
-                            <DetailBox>
-                                <Label htmlFor="topic">주제</Label>
-                                <CustomSelect
-                                    id="topic-select"
-                                    value={selectedTopic}
+                                <TextArea
+                                    id="description"
+                                    value={description}
+                                    placeholder="최대 700자"
+                                    maxLength={900}
                                     onChange={(e) =>
-                                        setSelectedTopic(e.target.value)
+                                        setDescription(e.target.value)
                                     }
-                                >
-                                    {topics.map((topic) => (
-                                        <option key={topic} value={topic}>
-                                            {topic}
-                                        </option>
-                                    ))}
-                                </CustomSelect>
-                            </DetailBox>
-                        </Row2>
-                        <Row3>
-                            <Label htmlFor="description">게임방 설명</Label>
-                            <TextArea
-                                id="description"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                            />
-                        </Row3>
-                        <Row2>
-                            <Cancel onClick={handleLobbyClick}>취소</Cancel>
-                            <CreateButton onClick={handleCreateGame}>
-                                방 만들기
-                            </CreateButton>
-                        </Row2>
-                    </CreateGameContainer>
+                                />
+                            </Row3>
+                            <Row2>
+                                <Cancel onClick={handleLobbyClick}>취소</Cancel>
+                                <CreateButton onClick={handleCreateGame}>
+                                    방 만들기
+                                </CreateButton>
+                            </Row2>
+                        </CreateGameContainer>
+                    </Count>
                     <EffectSound ref={effectSound} />
                 </LobbyBody>
             </Container>

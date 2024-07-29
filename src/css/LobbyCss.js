@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { FaQuestionCircle } from 'react-icons/fa';
+import backGround from '../assets/backImage.png';
 
 export const Container = styled.div`
     width: 1280px;
@@ -220,5 +221,11 @@ export const GameRuleWindow = styled(FaQuestionCircle)`
     border: none;
 `;
 export const GameLIst = styled.div`
-    width: 1030px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; /* 예시로 전체 화면 높이 설정 */
+    background-image: url(${backGround});
+    width: 1100px;
+    height: 802px;
 `;

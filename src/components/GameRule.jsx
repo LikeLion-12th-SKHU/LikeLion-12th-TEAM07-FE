@@ -1,4 +1,3 @@
-// GameRule.js
 import React from 'react';
 import { IoGameController } from 'react-icons/io5';
 import {
@@ -9,6 +8,7 @@ import {
     Subheading,
     Content,
 } from '../css/GameRuleCss.js';
+
 const GameRule = ({ onClose }) => {
     return (
         <ModalBackground>
@@ -18,7 +18,9 @@ const GameRule = ({ onClose }) => {
                     <IoGameController />
                     게임 방법
                 </StyleFont>
+
                 <Subheading>[ 게임 진행 ]</Subheading>
+
                 <Content>1. 건강에 대한 주제로 제시어를 줍니다.</Content>
                 <Content>2. 각각 제시어를 확인하고 순서를 확인합니다.</Content>
                 <Content>
@@ -46,14 +48,19 @@ const GameRule = ({ onClose }) => {
                 </Content>
 
                 <Subheading>[ 라이어 ]</Subheading>
+
                 <Content>
                     시민을 말에 집중하여 제시어를 아는 척 해야해요!!
                 </Content>
+
                 <Subheading>[ 시민 ]</Subheading>
+
                 <Content>
                     제시어를 모르면서 아는 척 하는 거짓말쟁이를 찾으세요!!
                 </Content>
+
                 <Subheading>[ 점수 ]</Subheading>
+
                 <Content>라이어 승리 : +30 점 , 시민 -25점</Content>
                 <Content>
                     라이어 패배 : 첫 라운드 광탈 -20 점 그 후 탈락 -10 점

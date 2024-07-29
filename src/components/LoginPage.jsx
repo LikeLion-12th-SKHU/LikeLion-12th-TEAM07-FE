@@ -1,9 +1,9 @@
 // LoginPage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
-
+import EffectSound from '../components/EffectSound';
 import {
     AppContainer,
     LoginContainer,
@@ -18,13 +18,18 @@ import GoogleLoginLogo from '../assets/GoogleLoginLogo.png';
 import KakaLoginLogo from '../assets/KakaoLoginLogo.png';
 import GuestLogin from '../assets/GuestLogin.png';
 
-export default function LoginPage() {
+export default function LoginPage({ setBackgroundMusic }) {
+    useEffect(() => {
+        setBackgroundMusic(false);
+        return () => setBackgroundMusic(true);
+    }, [setBackgroundMusic]);
     const navigate = useNavigate();
     const { login } = useAuth();
     const [loginToken, setLoginToken] = useState({
         accessToken: '',
         refreshToken: '',
     });
+    const effectSound = useRef(null);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -38,19 +43,28 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (loginToken.accessToken) {
-            login(loginToken);
-            navigate('/');
+            effectSound.current.playSound();
+            setTimeout(() => {
+                login(loginToken);
+                navigate('/');
+            }, 140);
         }
     }, [loginToken, login, navigate]);
 
     const kakaoHandleLogin = () => {
-        localStorage.setItem('provider', 'kakao');
-        window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
+        effectSound.current.playSound();
+        setTimeout(() => {
+            localStorage.setItem('provider', 'kakao');
+            window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
+        }, 130);
     };
 
     const googleHandleLogin = () => {
-        localStorage.setItem('provider', 'google');
-        window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code&scope=email profile`;
+        effectSound.current.playSound();
+        setTimeout(() => {
+            localStorage.setItem('provider', 'google');
+            window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code&scope=email profile`;
+        }, 130);
     };
 
     const getToken = async (authCode, provider) => {
@@ -74,22 +88,25 @@ export default function LoginPage() {
     };
 
     return (
-        <AppContainer>
-            <LoginContainer>
-                <LogoImage alt="Logo" src={Logo} />
-                <LikeLiarImage alt="LikeLiar" src={LikeLiar} />
-                <LoginButton
-                    alt="카카오 로그인"
-                    src={KakaLoginLogo}
-                    onClick={kakaoHandleLogin}
-                />
-                <LoginButton
-                    alt="구글 로그인"
-                    src={GoogleLoginLogo}
-                    onClick={googleHandleLogin}
-                />
-                <LoginButton alt="게스트 로그인" src={GuestLogin} />
-            </LoginContainer>
-        </AppContainer>
+        <>
+            <AppContainer>
+                <LoginContainer>
+                    <LogoImage alt="Logo" src={Logo} />
+                    <LikeLiarImage alt="LikeLiar" src={LikeLiar} />
+                    <LoginButton
+                        alt="카카오 로그인"
+                        src={KakaLoginLogo}
+                        onClick={kakaoHandleLogin}
+                    />
+                    <LoginButton
+                        alt="구글 로그인"
+                        src={GoogleLoginLogo}
+                        onClick={googleHandleLogin}
+                    />
+                    <LoginButton alt="게스트 로그인" src={GuestLogin} />
+                </LoginContainer>
+            </AppContainer>
+            <EffectSound ref={effectSound} />
+        </>
     );
 }
