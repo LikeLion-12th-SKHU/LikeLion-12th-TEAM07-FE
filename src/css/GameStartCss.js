@@ -349,7 +349,7 @@ export const SuggestedWordCheck = styled.div`
     border-radius: 40px;
     background-color: #e0e0e0;
 
-    border: 7px solid black;
+    border: 7px solid black; /* 두께, 스타일, 색상 */
 `;
 
 export const Element6 = styled.div`
@@ -374,9 +374,9 @@ export const Element6 = styled.div`
 `;
 
 export const GameRuleWindow = styled(FaQuestionCircle)`
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
+    position: absolute; // 추가
+    bottom: 20px; // 추가
+    left: 20px; // 추가
     left: 20px;
     background-color: none;
     margin-top: 337px;
