@@ -14,7 +14,8 @@ import {
   Footer,
   PaginationButton,
   RankingTitleContainer,
-  BackButton, // 새로운 스타일 추가
+  BackButton,
+  Circle, // Circle 추가
 } from "../css/RankingCss"; // 기존의 CSS 그대로 사용
 
 const allRankings = [
@@ -66,6 +67,7 @@ const RankingPage = () => {
 
   return (
     <MainContainer>
+      <Circle /> {/* Circle 추가 */}
       <LogoContainer>
         <LogoImage
           alt="LikeLiarimage"

@@ -17,6 +17,7 @@ import {
   WordItem,
   WordDescription,
   ScrollContainer,
+  Circle,
 } from "../css/MyPageCss";
 
 const quizHistory = [
@@ -173,6 +174,7 @@ const MyPage = () => {
 
   return (
     <MainContainer>
+      <Circle /> {/* Added Circle here */}
       <LogoContainer>
         <LogoImage
           alt="LikeLiarimage"
@@ -188,7 +190,6 @@ const MyPage = () => {
           </h1>
         </Header>
       </LogoContainer>
-
       <SectionTitle>참여한 퀴즈 목록</SectionTitle>
       <QuizTable>
         <thead>
@@ -214,7 +215,6 @@ const MyPage = () => {
           ))}
         </tbody>
       </QuizTable>
-
       <SectionTitle>게임 카테고리와 단어 설명</SectionTitle>
       <ScrollContainer>
         {categories.map((category, index) => (
@@ -231,7 +231,6 @@ const MyPage = () => {
           </CategoryContainer>
         ))}
       </ScrollContainer>
-
       <Footer>
         <p>성공회대 7팀</p>
         <p>비즈니스 문의 yurim0725@naver.com</p>
