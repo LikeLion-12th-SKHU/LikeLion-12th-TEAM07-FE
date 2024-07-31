@@ -92,6 +92,7 @@ const Lobby = ({ openSettings, rooms = [] }) => {
                         </DetailCategory>
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
+
                     <GameLIst>
                         <GameRoomList rooms={rooms} />
                     </GameLIst>

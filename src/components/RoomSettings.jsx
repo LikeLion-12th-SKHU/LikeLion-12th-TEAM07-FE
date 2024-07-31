@@ -2,19 +2,23 @@ import React, { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import GameRule from './GameRule';
 import EffectSound from './EffectSound';
+import logoImage from '../assets/logo.png';
+
 import {
-    BackGroundColor,
     Container,
     Header,
     LogoButton,
     LobbyBody,
     Category,
+    Logo,
     ProfileBack,
     DetailCategory,
     ElementL,
     ElementR,
     ElementH,
+    LogoContainer,
     GameRuleWindow,
+    GameName,
 } from '../css/GameRoom.js';
 import {
     CreateGameContainer,
@@ -30,7 +34,6 @@ import {
     Cancel,
     CustomSelect,
 } from '../css/SettingNewGameCss.js';
-
 const topics = [
     '신체 건강',
     '정신 건강',
@@ -84,7 +87,10 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
             alert('항목들을 모두 입력해주세요.');
         }
     };
-
+    const lobby = () => {
+        effectSound.current.playSound();
+        navigate('/lobby');
+    };
     const openGameRule = () => {
         effectSound.current.playSound();
         setIsGameRuleOpen(true);
@@ -108,16 +114,20 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
                 <LobbyBody>
                     <Category>
                         <ProfileBack>
-                            {playerCount}
-                            <br />
-                            {gameName}님의
-                            <br />
-                            <p>게임</p>
+                            <Logo>
+                                <LogoContainer>
+                                    <img
+                                        className="logo"
+                                        src={logoImage}
+                                        alt="LikLiar"
+                                    />
+                                    <p className="miniTitle">[ 방 제목 ]</p>
+                                </LogoContainer>
+                                <GameName>{roomData.name}</GameName>
+                            </Logo>
                         </ProfileBack>
                         <DetailCategory>
-                            <ElementL onClick={() => navigate('/')}>
-                                방 나가기
-                            </ElementL>
+                            <ElementL onClick={lobby}>방 나가기</ElementL>
                             <ElementR onClick={handleOpenSettings}>
                                 방 설정
                             </ElementR>
@@ -138,8 +148,8 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
                             <InputTitle
                                 id="gameName"
                                 type="text"
-                                placeholder="10글자 이내"
-                                maxLength={10}
+                                placeholder="7글자 이내"
+                                maxLength={7}
                                 value={gameName}
                                 onChange={(e) => setGameName(e.target.value)}
                             />
@@ -195,10 +205,13 @@ const RoomSettings = ({ onUpdate, onClose, openSettings }) => {
                             </DetailBox>
                         </Row2>
                         <Row3>
-                            <Label htmlFor="description">게임방 설명</Label>
+                            <Label htmlFor="description">
+                                게임방 설명 ( 최대 700자 )
+                            </Label>
                             <TextArea
                                 id="description"
                                 value={description}
+                                maxLength={900}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                         </Row3>

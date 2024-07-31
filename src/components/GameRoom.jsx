@@ -1,11 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import GameRule from './GameRule';
 import EffectSound from './EffectSound';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Player from '../components/Player';
+import logoImage from '../assets/logo.png';
+
 import {
     Container,
     Header,
+    Logo,
     User,
     Des,
     LogoButton,
@@ -22,37 +25,47 @@ import {
     ReadyButton,
     MiniTitle,
     Button,
+    LogoContainer,
+    GameName,
     StartButton,
 } from '../css/GameRoom.js';
 
 const GameRoom = ({ openSettings }) => {
-    const [isGameRuleOpen, setIsGameRuleOpen] = React.useState(false);
+    const [isGameRuleOpen, setIsGameRuleOpen] = useState(false);
     const effectSound = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
-    const roomData = location.state || {}; // roomData가 없을 경우를 대비해 빈 객체로 초기화
+    const roomData = location.state || {};
 
     const openGameRule = () => {
         effectSound.current.playSound();
         setIsGameRuleOpen(true);
     };
-
+    const lobby = () => {
+        effectSound.current.playSound();
+        setTimeout(() => {
+            navigate('/lobby');
+        }, 140);
+    };
     const closeGameRule = () => {
         effectSound.current.playSound();
         setIsGameRuleOpen(false);
     };
+
     const gameStartClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/game-start');
+            navigate('/game-start', { state: roomData });
         }, 140);
     };
+
     const handleRoomSettingsClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/room-settings', { state: roomData }); // roomData를 state로 전달
+            navigate('/room-settings', { state: roomData });
         }, 140);
     };
+
     return (
         <>
             <Container>
@@ -62,14 +75,20 @@ const GameRoom = ({ openSettings }) => {
                 <LobbyBody>
                     <Category>
                         <ProfileBack>
-                            {roomData.playerCount}
-                            <br />
-                            {roomData.name}
+                            <Logo>
+                                <LogoContainer>
+                                    <img
+                                        className="logo"
+                                        src={logoImage}
+                                        alt="LikLiar"
+                                    />
+                                    <p className="miniTitle">[ 방 제목 ]</p>
+                                </LogoContainer>
+                                <GameName>{roomData.name}</GameName>
+                            </Logo>
                         </ProfileBack>
                         <DetailCategory>
-                            <ElementL onClick={() => navigate('/lobby')}>
-                                방 나가기
-                            </ElementL>
+                            <ElementL onClick={lobby}>방 나가기</ElementL>
                             <ElementR onClick={handleRoomSettingsClick}>
                                 방 설정
                             </ElementR>
@@ -93,7 +112,9 @@ const GameRoom = ({ openSettings }) => {
                             <Des>{roomData.description}</Des>
                         </Description>
                         <Button>
-                            <ReadyButton>준비 6/6</ReadyButton>
+                            <ReadyButton>
+                                준비 {roomData.playerCount}
+                            </ReadyButton>
                             <StartButton onClick={gameStartClick}>
                                 게임 시작
                             </StartButton>

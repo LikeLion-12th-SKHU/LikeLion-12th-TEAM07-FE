@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { FaQuestionCircle } from 'react-icons/fa';
-
+import backGround from '../assets/backImage.png';
 export const Container = styled.div`
     width: 1280px;
     height: 832px;
@@ -11,6 +11,45 @@ export const Container = styled.div`
     margin: 0 auto;
     padding: 20px;
 `;
+export const Logo = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 25px;
+    width: 180px;
+    height: 140px;
+    background-color: #ffffff;
+`;
+export const LogoContainer = styled.div`
+    display: flex;
+    flex-direction: column; // 수직 정렬을 위한 설정
+    align-items: center; // 수직 가운데 정렬
+    justify-content: center; // 수평 가운데 정렬
+    font-weight: bold;
+    height: 100px;
+    width: 90%;
+    border-radius: 30px;
+
+    .logo {
+        width: 50px;
+        position: relative;
+        top: 20px;
+    }
+    .miniTitle {
+        font-size: 25px;
+    }
+`;
+
+export const GameName = styled.div`
+    font-size: 25px;
+    margin-left: 20px;
+    margin-top: -4px;
+    font-weight: bold;
+    position: relative;
+    left: -10px;
+`;
 
 export const MiniTitle = styled.div`
     display: flex;
@@ -19,7 +58,6 @@ export const MiniTitle = styled.div`
     font-weight: bold;
     font-size: 30px;
     padding-left: 20px;
-
     background-color: #cccccc;
     height: 50px;
 `;
@@ -39,6 +77,7 @@ export const Description = styled.div`
     top: -10px; /* 요소를 위로 이동 */
     border-radius: 40px;
     background-color: #e7e7e7;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 `;
 export const Button = styled.div`
     display: flex;
@@ -55,7 +94,11 @@ export const ReadyButton = styled.button`
     border: none;
     border-radius: 20px;
     font-size: 30px;
-    background-color: #ff7710;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(255, 98, 98),
+        rgb(194, 70, 70)
+    );
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
 
     &:active {
@@ -71,7 +114,11 @@ export const StartButton = styled.button`
     border-radius: 20px;
     font-weight: bold;
     font-size: 30px;
-    background-color: #39a0cc;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(50, 182, 95),
+        rgb(43, 158, 81)
+    );
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
 
     &:active {
@@ -93,10 +140,13 @@ export const User = styled.div`
 export const Information = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 2% 2% 0 2%;
-    width: 1026px;
+    width: 1100px;
+    height: 802px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(${backGround});
 
-    height: 770px;
     justify-content: center;
     align-items: center;
 `;

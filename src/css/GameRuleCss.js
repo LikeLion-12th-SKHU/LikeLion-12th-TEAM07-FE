@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { IoMdCloseCircle } from 'react-icons/io';
+
 export const ModalBackground = styled.div`
     position: fixed;
     top: 0;
@@ -13,10 +14,12 @@ export const ModalBackground = styled.div`
 `;
 
 export const ModalContent = styled.div`
-    width: 60%;
+    width: 80%; /* 조정 가능한 값 */
+    max-width: 1000px;
     background: white;
     position: relative;
     border-radius: 20px;
+    padding-bottom: 20px;
 `;
 
 export const StyleFont = styled.div`
@@ -43,14 +46,18 @@ export const StyleFont = styled.div`
 export const Subheading = styled.div`
     font-size: 27px;
     font-weight: bold;
-    margin: 20px;
-    font-family: 'RixInooAriDuriR';
+    text-align: left;
+    margin-left: 30px;
+    margin-top: 30px;
 `;
 
 export const Content = styled.div`
-    margin: 20px;
     font-size: 20px;
+    margin-left: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 `;
+
 export const CloseButton = styled(IoMdCloseCircle)`
     position: absolute;
     top: 10px;
