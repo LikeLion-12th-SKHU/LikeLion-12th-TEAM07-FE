@@ -2,33 +2,235 @@ import styled from 'styled-components';
 import { FaQuestionCircle } from 'react-icons/fa';
 import backGround from '../assets/backImage.png';
 import { PiWarningCircleFill } from 'react-icons/pi';
+import blackboard from '../assets/blackboard.png';
+export const PlayerList = styled.div`
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 30px;
+    padding: 30px;
+    margin-left: 3%;
+    margin-top: 3%;
+    margin-bottom: 5px;
+    height: 60%;
+    width: 88.5%;
+    max-width: 88.5%;
+    border-radius: 25px;
+    background-color: #f0f0f0;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
+`;
+export const NumberIcon1 = styled.div`
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(255, 98, 98),
+        rgb(130, 49, 49)
+    );
+`;
+export const Player01 = styled.div`
+    width: 280px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    padding: 0;
+`;
+export const NumberIcon2 = styled.div`
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(231, 148, 85),
+        rgb(193, 91, 13)
+    );
+`;
+export const Player02 = styled.div`
+    width: 280px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    padding: 0;
+`;
+export const NumberIcon3 = styled.div`
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(255, 203, 20),
+        rgb(196, 154, 3)
+    );
+`;
+export const Player03 = styled.div`
+    width: 280px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    padding: 0;
+`;
+export const NumberIcon4 = styled.div`
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(50, 182, 95),
+        rgb(35, 131, 67)
+    );
+`;
+export const Player04 = styled.div`
+    width: 280px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    padding: 0;
+`;
+export const NumberIcon5 = styled.div`
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(49, 172, 241),
+        rgb(12, 127, 193)
+    );
+`;
+export const Player05 = styled.div`
+    width: 280px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    padding: 0;
+`;
+export const NumberIcon6 = styled.div`
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 23px;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(22, 115, 199),
+        rgb(16, 93, 163)
+    );
+`;
+export const Player06 = styled.div`
+    width: 280px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    padding: 0;
+`;
+export const VotingButton = styled.button`
+    width: 100%;
+    height: 60px;
+    margin-bottom: 0;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background-image: ${(props) =>
+        props.isClicked
+            ? 'linear-gradient(to right bottom, rgb(169, 169, 169), rgb(105, 105, 105))'
+            : 'linear-gradient(to right bottom, rgb(231, 148, 85), rgb(214, 106, 24))'};
+    font-size: 20px;
+    font-weight: bold;
+    transition: background-image 0.3s ease;
+    &:active {
+        background-image: linear-gradient(
+            to right bottom,
+            rgb(169, 169, 169),
+            rgb(105, 105, 105)
+        );
+    }
+`;
+export const PlayerName = styled.div`
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    .name {
+        width: 200px;
+        height: 60px;
+        background-color: #dddddd;
+        margin-top: 50px;
+        margin-left: -10px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: bold;
+        border-radius: 30px;
+    }
+`;
 
 export const WarningIcons = styled(PiWarningCircleFill)`
     width: 40px;
     height: auto;
     color: #d42030;
     margin-right: 10px;
-`;
-export const Num = styled.div`
-    font-size: 50px;
-    margin-left: 20px;
-    font-weight: bold;
-`;
-export const Topic = styled.div`
-    font-size: 50px;
-    margin-right: 120px;
-    margin-left: 100px;
-    font-weight: bold;
-`;
-export const Sub = styled.div`
-    display: flex;
-    width: 80%;
-    height: 60%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 50px;
-    font-weight: bold;
 `;
 
 export const subContainer = styled.div`
@@ -38,83 +240,40 @@ export const subContainer = styled.div`
     border-radius: 40px;
 `;
 
-export const SubStance = styled.div`
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 40px;
-
-    width: 94%;
-    height: 66%;
-    background-color: #dddddd;
-    margin-left: 3%;
-    .subBody1 {
-        margin-top: 30px;
-        display: flex;
-        flex-direction: row;
-        margin-left: 40px;
-        position: relative;
-        left: -380px;
-        margin-right: 10px;
-    }
-    .subBody2 {
-        font-size: 30px;
-        font-weight: bold;
-        color: #2da756;
-    }
-    .subBody3 {
-        position: relative;
-        bottom: -8px;
-        font-weight: bold;
-
-        font-size: 20px;
-    }
-    .subBody4 {
-        font-weight: bold;
-    }
-`;
 export const WarningText = styled.div`
+    position: relative;
+    bottom: -2px;
     font-size: 25px;
     font-weight: bold;
     display: flex;
     flex-direction: row;
-    padding: 0;
-    .counter {
-        margin-right: 8px;
+    align-items: center;
+    justify-content: center;
+    .time {
+        justify-content: center;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-left: 10px;
+        font-size: 25px;
+    }
+    .timer {
+        margin-left: 10px;
+    }
+    .Timer {
+        margin-left: 10px;
     }
 `;
 export const After = styled.div`
     .AfterClick {
-        width: 1005px;
-        height: 480px;
+        width: 1014px;
+        height: 484px;
         border-radius: 35px;
         background-color: #a7a7a7;
         flex-direction: column;
         align-items: center;
         display: flex;
         justify-content: center;
-    }
-`;
-export const AfterClickContents = styled.div`
-    width: 100%;
-    height: 100%;
-    background-color: #eeeeee;
-    border-radius: 35px;
-`;
-export const TopicAndNum = styled.div`
-    margin-top: 15px;
-    width: 94%;
-    margin-left: 3%;
-    height: 20%;
-    /* background-color: #ffffff; */
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    .image {
-        width: 55px;
-        margin-right: -90px;
-        margin-left: 10px;
     }
 `;
 
@@ -125,12 +284,25 @@ export const Warning = styled.div`
     display: flex;
     justify-content: center;
     width: 94%;
-    margin-left: 3%;
     margin-top: 2%;
+    margin-left: 2%;
+    margin-bottom: 1%;
     height: 10%;
     background-color: none;
 `;
-
+export const WarningSecond = styled.div`
+    padding-left: 0;
+    flex-direction: row;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 94%;
+    margin-bottom: 30px;
+    margin-left: 2%;
+    margin-top: 20px;
+    height: 10%;
+    background-color: none;
+`;
 export const Element1 = styled.div`
     font-weight: bold;
     font-size: 20px;
@@ -252,6 +424,57 @@ export const Screen = styled.div`
     height: 802px;
     padding: 0;
 `;
+
+export const SuggestedWordCheck = styled.div`
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 3%;
+    margin-top: 3%;
+    height: 60%;
+    width: 92%;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    background-image: url(${blackboard});
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-top: 15px solid rgb(191, 97, 25);
+    border-right: 15px solid rgb(191, 97, 25);
+    border-left: 15px solid rgb(191, 97, 25);
+    border-bottom: none;
+`;
+export const Timer = styled.div``;
+export const Content1 = styled.div`
+    align-items: end;
+
+    font-size: 60px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    .content1 {
+        font-size: 80px;
+    }
+    .content2 {
+    }
+`;
+export const Content2 = styled.div`
+    font-size: 60px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    .content1 {
+        font-size: 40px;
+        margin-right: -20px;
+        color: #e45151;
+    }
+    .content2 {
+        margin-left: 200px;
+        color: rgb(255, 203, 20);
+    }
+`;
+
 export const Content = styled.div`
     display: flex;
     align-items: center;
@@ -309,49 +532,9 @@ export const SuggestedWord = styled.div`
     margin-top: 3%;
     height: 14%;
     border-radius: 30px;
-    background-color: #ffffff;
+    background-color: #f0f0f0;
     box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.1);
 `;
-export const CheckTopicButton = styled.div`
-    display: flex;
-    cursor: pointer;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    width: 300px;
-    border: none;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 40px;
-    background-image: linear-gradient(
-        to right bottom,
-        rgb(50, 182, 95),
-        rgb(43, 158, 81)
-    );
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-
-    &:active {
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-        transform: translateY(2px);
-    }
-`;
-
-export const SuggestedWordCheck = styled.div`
-    align-items: center;
-    display: flex;
-    justify-content: center;
-
-    margin-left: 3%;
-    margin-top: 3%;
-    height: 60%;
-    width: 93%;
-    border-radius: 40px;
-    background-color: #e0e0e0;
-
-    border: 7px solid black;
-`;
-
 export const Element6 = styled.div`
     font-weight: bold;
     font-size: 20px;
@@ -372,11 +555,10 @@ export const Element6 = styled.div`
     transition: all 0.3s ease;
     transform-origin: right;
 `;
-
 export const GameRuleWindow = styled(FaQuestionCircle)`
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
+    position: absolute; // 추가
+    bottom: 20px; // 추가
+    left: 20px; // 추가
     left: 20px;
     background-color: none;
     margin-top: 337px;

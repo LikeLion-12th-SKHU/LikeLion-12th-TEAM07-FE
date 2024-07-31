@@ -49,7 +49,9 @@ const GameRoom = ({ openSettings }) => {
     };
     const closeGameRule = () => {
         effectSound.current.playSound();
-        setIsGameRuleOpen(false);
+        setTimeout(() => {
+            setIsGameRuleOpen(false);
+        }, 140);
     };
 
     const gameStartClick = () => {
@@ -57,6 +59,11 @@ const GameRoom = ({ openSettings }) => {
         setTimeout(() => {
             navigate('/game-start', { state: roomData });
         }, 140);
+    };
+
+    const gameReadyClick = () => {
+        effectSound.current.playSound();
+        setTimeout(() => {}, 140);
     };
 
     const handleRoomSettingsClick = () => {
@@ -112,7 +119,7 @@ const GameRoom = ({ openSettings }) => {
                             <Des>{roomData.description}</Des>
                         </Description>
                         <Button>
-                            <ReadyButton>
+                            <ReadyButton onClick={gameReadyClick}>
                                 준비 {roomData.playerCount}
                             </ReadyButton>
                             <StartButton onClick={gameStartClick}>

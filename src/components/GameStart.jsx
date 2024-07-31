@@ -34,9 +34,7 @@ import {
     WarningIcons,
     Screen,
     Ele,
-    Element7,
     SuggestedWord,
-    ClockIcon,
     PlayerId,
     Title,
     SuggestedWordCheck,
@@ -48,14 +46,13 @@ const GameStart = ({ openSettings }) => {
     const effectSound = useRef(null);
     const location = useLocation();
     const navigate = useNavigate();
-
     const roomData = location.state || {};
 
     useEffect(() => {
         const interval = setInterval(() => {
             setTimer((prev) => {
                 if (prev <= 1) {
-                    return 60; // 타이머가 0초가 되면 60초로 리셋
+                    return navigate('/game-discuss', { state: roomData }); // 타이머가 0초가 되면 60초로 리셋
                 }
                 return prev - 1;
             });
@@ -81,6 +78,12 @@ const GameStart = ({ openSettings }) => {
     const addContainer = () => {
         setContainers([...containers, `Container ${containers.length + 1}`]);
         setIsButtonVisible(false); // 버튼을 클릭하면 숨기기
+    };
+    const CheckTopicButtonClick = () => {
+        effectSound.current.playSound();
+        setTimeout(() => {
+            addContainer();
+        }, 140);
     };
     return (
         <>
@@ -130,14 +133,6 @@ const GameStart = ({ openSettings }) => {
                                 <Element6>. . .</Element6>
                                 <PlayerId>giwoong</PlayerId>
                             </Ele>
-                            <Ele>
-                                <Element7>
-                                    <ClockIcon progress={progress}></ClockIcon>
-                                </Element7>
-                                <PlayerId style={{ color: timerColor }}>
-                                    <span>{timer} 초</span>
-                                </PlayerId>
-                            </Ele>
                         </DetailCategory>
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
@@ -183,7 +178,9 @@ const GameStart = ({ openSettings }) => {
                                 ))}
                             </After>
                             {isButtonVisible && (
-                                <CheckTopicButton onClick={addContainer}>
+                                <CheckTopicButton
+                                    onClick={CheckTopicButtonClick}
+                                >
                                     제시어 확인
                                 </CheckTopicButton>
                             )}
@@ -191,7 +188,13 @@ const GameStart = ({ openSettings }) => {
                         <Warning>
                             <WarningIcons />
                             <WarningText>
-                                정해진 시간 안에 제시어와 순번을 확인해주세요.
+                                <div
+                                    className="counter"
+                                    style={{ color: timerColor }}
+                                >
+                                    {timer}초
+                                </div>
+                                <div>동안 제시어와 순번을 확인해주세요.</div>
                             </WarningText>
                         </Warning>
                     </Screen>
