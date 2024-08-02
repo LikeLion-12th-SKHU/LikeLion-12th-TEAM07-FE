@@ -12,7 +12,7 @@ import {
 import vic from '../assets/victory.png';
 import fail from '../assets/Fail.png';
 import VictoryArrow from '../assets/VictoryArrow.png';
-const Victory = ({ onClose }) => {
+const GameResult = ({ onClose }) => {
     const navigate = useNavigate();
     const ClickClose = () => {
         navigate('/lobby');
@@ -42,4 +42,4 @@ const Victory = ({ onClose }) => {
     );
 };
 
-export default Victory;
+export default GameResult;

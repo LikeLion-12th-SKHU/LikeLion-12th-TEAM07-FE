@@ -492,7 +492,6 @@ export const Ele = styled.div`
     flex-direction: row;
     width: 100%;
     height: 60px;
-
     background-color: #dddddd;
     padding: 0;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);

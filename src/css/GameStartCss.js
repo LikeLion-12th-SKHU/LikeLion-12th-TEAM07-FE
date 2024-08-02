@@ -9,53 +9,94 @@ export const WarningIcons = styled(PiWarningCircleFill)`
     color: #d42030;
     margin-right: 10px;
 `;
-export const Num = styled.div`
-    font-size: 50px;
-    margin-left: 20px;
+export const Job = styled.div`
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
     font-weight: bold;
+    justify-content: center;
+    font-size: 38px;
+    width: 120px;
+    height: 70px;
+    position: absolute;
+    right: 32px;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(50, 182, 95),
+        rgb(35, 131, 67)
+    );
+`;
+export const JobLiar = styled.div`
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    justify-content: center;
+    font-size: 38px;
+    width: 120px;
+    height: 70px;
+    position: absolute;
+    right: 32px;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(255, 98, 98),
+        rgb(130, 49, 49)
+    );
+`;
+
+export const SuggestTopic = styled.div`
+    color: #2da756;
+    margin-left: 12px;
 `;
 export const Topic = styled.div`
+    display: flex;
+    flex-direction: row;
     font-size: 50px;
     margin-right: 120px;
     margin-left: 100px;
     font-weight: bold;
+    color: #000000;
 `;
 export const Sub = styled.div`
     display: flex;
     width: 80%;
     height: 60%;
-    flex-direction: column;
+    flex-direction: column;ㄴ
     align-items: center;
     justify-content: center;
     font-size: 50px;
     font-weight: bold;
+    margin-left: 60px;
 `;
-
 export const subContainer = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
     border-radius: 40px;
 `;
-
 export const SubStance = styled.div`
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
     border-radius: 40px;
+    padding: 0;
+    padding-left: 40px;
 
-    width: 94%;
+    width: 90%;
+
     height: 66%;
     background-color: #dddddd;
     margin-left: 3%;
+    .subLiar {
+        font-size: 30px;
+        font-weight: bold;
+        color: #d44444;
+    }
     .subBody1 {
         margin-top: 30px;
         display: flex;
         flex-direction: row;
-        margin-left: 40px;
-        position: relative;
-        left: -380px;
         margin-right: 10px;
     }
     .subBody2 {
@@ -65,9 +106,8 @@ export const SubStance = styled.div`
     }
     .subBody3 {
         position: relative;
-        bottom: -8px;
+        bottom: -10px;
         font-weight: bold;
-
         font-size: 20px;
     }
     .subBody4 {
@@ -101,6 +141,7 @@ export const AfterClickContents = styled.div`
     height: 100%;
     background-color: #eeeeee;
     border-radius: 35px;
+    position: relative;
 `;
 export const TopicAndNum = styled.div`
     margin-top: 15px;
@@ -117,7 +158,19 @@ export const TopicAndNum = styled.div`
         margin-left: 10px;
     }
 `;
-
+export const LiarContent = styled.div`
+    display: flex;
+    flex-direction: row;
+    font-size: 50px;
+    margin-right: 120px;
+    margin-left: 100px;
+    font-weight: bold;
+    .YourLiar {
+        color: #d44444;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+`;
 export const Warning = styled.div`
     padding-left: 0;
     flex-direction: row;
@@ -151,6 +204,7 @@ export const Element1 = styled.div`
     transition: all 0.3s ease;
     transform-origin: right;
 `;
+
 export const Element2 = styled.div`
     font-weight: bold;
     font-size: 20px;
@@ -324,6 +378,7 @@ export const CheckTopicButton = styled.div`
     border-radius: 20px;
     font-weight: bold;
     font-size: 40px;
+    position: relative;
     background-image: linear-gradient(
         to right bottom,
         rgb(50, 182, 95),
@@ -334,6 +389,12 @@ export const CheckTopicButton = styled.div`
     &:active {
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
         transform: translateY(2px);
+    }
+    .image {
+        width: 100px;
+        position: absolute;
+        top: -40px;
+        right: -30px;
     }
 `;
 
@@ -372,7 +433,13 @@ export const Element6 = styled.div`
     transition: all 0.3s ease;
     transform-origin: right;
 `;
-
+export const InactiveElement = styled.div`
+    /* 비활성화된 스타일 */
+    color: gray;
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+    opacity: 0.5;
+`;
 export const GameRuleWindow = styled(FaQuestionCircle)`
     position: absolute; // 추가
     bottom: 20px; // 추가

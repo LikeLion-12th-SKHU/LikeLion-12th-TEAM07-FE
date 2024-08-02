@@ -53,53 +53,43 @@ import { Logo, LogoContainer, GameName } from '../css/GameRoom.js';
 const FindLiar = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const roomData = location.state || {
-        topic: '기본 주제',
-        votingTimeLimit: 10,
-        name: '기본 방 이름',
-        playerCount: 6,
-        votes: [
-            { id: 'player1', name: 'mubin', votes: 0, job: '라이어' },
-            { id: 'player2', name: 'yurim', votes: 0, job: '시민' },
-            { id: 'player3', name: 'seoyun', votes: 0, job: '시민' },
-            { id: 'player4', name: 'giwoong1', votes: 0, job: '시민' },
-            { id: 'player5', name: 'giwoong2', votes: 0, job: '시민' },
-            { id: 'player6', name: 'giwoong3', votes: 0, job: '시민' },
-        ],
-    };
+    const roomData = location.state || {};
+    const { shuffledPlayers } = roomData;
+    const subTopic = location.state?.subTopic || '없음';
 
+    const initializedPlayers = shuffledPlayers.map((player) => ({
+        ...player,
+        votes: player.votes || 0,
+    }));
+
+    const [players, setPlayers] = useState(initializedPlayers);
     const [isGameRuleOpen, setIsGameRuleOpen] = useState(false);
     const [timer, setTimer] = useState(10);
     const [secondTimer, setSecondTimer] = useState(
-        roomData.votingTimeLimit || 0
+        roomData.votingTimeLimit || 10
     );
     const [votedPlayer, setVotedPlayer] = useState(null);
     const effectSound = useRef(null);
-    const [votes, setVotes] = useState(roomData.votes || []);
-
-    const [isTimerVisible, setIsTimerVisible] = useState(true);
-    const [isSecondTimerVisible, setIsSecondTimerVisible] = useState(false);
+    const [clickedPlayer, setClickedPlayer] = useState(null);
+    const [isVotingScreenVisible, setIsVotingScreenVisible] = useState(false);
 
     useEffect(() => {
-        let timerInterval;
-        if (isTimerVisible) {
-            timerInterval = setInterval(() => {
-                setTimer((prev) => {
-                    if (prev <= 1) {
-                        clearInterval(timerInterval);
-                        setIsTimerVisible(false);
-                        setIsSecondTimerVisible(true);
-                        return 0;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-        }
+        const timerInterval = setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timerInterval);
+                    setIsVotingScreenVisible(true);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
         return () => clearInterval(timerInterval);
-    }, [isTimerVisible]);
+    }, []);
 
     useEffect(() => {
-        if (isSecondTimerVisible) {
+        if (isVotingScreenVisible) {
             const secondTimerInterval = setInterval(() => {
                 setSecondTimer((prev) => {
                     if (prev <= 1) {
@@ -107,7 +97,8 @@ const FindLiar = () => {
                         navigate('/voting-finish', {
                             state: {
                                 ...roomData,
-                                votes,
+                                shuffledPlayers: players,
+                                subTopic, // 업데이트된 플레이어 데이터 전송
                             },
                         });
                         return 0;
@@ -115,9 +106,10 @@ const FindLiar = () => {
                     return prev - 1;
                 });
             }, 1000);
+
             return () => clearInterval(secondTimerInterval);
         }
-    }, [isSecondTimerVisible, secondTimer, navigate, roomData, votes]);
+    }, [isVotingScreenVisible, navigate, players, roomData]);
 
     const openGameRule = () => {
         effectSound.current.playSound();
@@ -130,40 +122,59 @@ const FindLiar = () => {
     };
 
     const handleVote = (playerId) => {
-        if (votedPlayer === playerId) {
-            // 투표 취소
-            setVotes((prevVotes) =>
-                prevVotes.map((player) =>
-                    player.id === playerId
-                        ? { ...player, votes: player.votes - 1 }
-                        : player
-                )
-            );
-            setVotedPlayer(null);
-        } else {
-            // 새로운 투표
-            setVotes((prevVotes) =>
-                prevVotes.map((player) => {
-                    if (player.id === playerId) {
-                        return { ...player, votes: player.votes + 1 };
+        setPlayers((prevPlayers) => {
+            return prevPlayers.map((player) => {
+                if (player.id === playerId) {
+                    console.log(
+                        `Voted for player ${playerId}: ${player.votes}`
+                    );
+                    if (votedPlayer === playerId) {
+                        return { ...player, votes: (player.votes || 0) - 1 };
+                    } else {
+                        return { ...player, votes: (player.votes || 0) + 1 };
                     }
-                    if (player.id === votedPlayer) {
-                        return { ...player, votes: player.votes - 1 };
-                    }
-                    return player;
-                })
-            );
-            setVotedPlayer(playerId);
-        }
-    };
+                } else if (player.id === votedPlayer) {
+                    return { ...player, votes: (player.votes || 0) - 1 };
+                }
+                return player;
+            });
+        });
 
-    const [clickedPlayer, setClickedPlayer] = useState(null);
+        setVotedPlayer(votedPlayer === playerId ? null : playerId);
+    };
 
     const handleClick = (playerId) => {
         setClickedPlayer(playerId === clickedPlayer ? null : playerId);
     };
 
     const timerColor = timer <= 10 ? 'red' : 'black';
+
+    const PlayerComponents = [
+        Player01,
+        Player02,
+        Player03,
+        Player04,
+        Player05,
+        Player06,
+    ];
+
+    const NumberIconComponents = [
+        NumberIcon1,
+        NumberIcon2,
+        NumberIcon3,
+        NumberIcon4,
+        NumberIcon5,
+        NumberIcon6,
+    ];
+
+    const ElementComponents = [
+        Element1,
+        Element2,
+        Element3,
+        Element4,
+        Element5,
+        Element6,
+    ];
 
     return (
         <>
@@ -186,34 +197,33 @@ const FindLiar = () => {
                                 <GameName>{roomData.name}</GameName>
                             </Logo>
                         </ProfileBack>
-                        <DetailCategory>
-                            {votes.map((player, index) => (
-                                <Ele key={player.id}>
-                                    {index === 0 && (
-                                        <Element1>{index + 1}</Element1>
-                                    )}
-                                    {index === 1 && (
-                                        <Element2>{index + 1}</Element2>
-                                    )}
-                                    {index === 2 && (
-                                        <Element3>{index + 1}</Element3>
-                                    )}
-                                    {index === 3 && (
-                                        <Element4>{index + 1}</Element4>
-                                    )}
-                                    {index === 4 && (
-                                        <Element5>{index + 1}</Element5>
-                                    )}
-                                    {index === 5 && (
-                                        <Element6>{index + 1}</Element6>
-                                    )}
-                                    <PlayerId>{player.name}</PlayerId>
-                                </Ele>
-                            ))}
-                        </DetailCategory>
+                        {players.length > 0 && (
+                            <DetailCategory>
+                                {players
+                                    .filter(
+                                        (player) => player.name.trim() !== ''
+                                    )
+                                    .map((player, index) => {
+                                        const ElementComponent =
+                                            ElementComponents[index] ||
+                                            Element1;
+
+                                        return (
+                                            <Ele key={player.id}>
+                                                <ElementComponent>
+                                                    {index + 1}
+                                                </ElementComponent>
+                                                <PlayerId>
+                                                    {player.name}
+                                                </PlayerId>
+                                            </Ele>
+                                        );
+                                    })}
+                            </DetailCategory>
+                        )}
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
-                    {isTimerVisible ? (
+                    {timer > 0 ? (
                         <Screen>
                             <SuggestedWord>
                                 <Title>투표</Title>
@@ -245,82 +255,87 @@ const FindLiar = () => {
                             </Warning>
                         </Screen>
                     ) : (
-                        <Screen>
-                            <SuggestedWord>
-                                <Title>투표</Title>
-                                <Content>라이어를 지목하세요!</Content>
-                            </SuggestedWord>
-                            <PlayerList>
-                                {votes.map((player, index) => {
-                                    const PlayerComponent = [
-                                        Player01,
-                                        Player02,
-                                        Player03,
-                                        Player04,
-                                        Player05,
-                                        Player06,
-                                    ][index];
-                                    const NumberIconComponent = [
-                                        NumberIcon1,
-                                        NumberIcon2,
-                                        NumberIcon3,
-                                        NumberIcon4,
-                                        NumberIcon5,
-                                        NumberIcon6,
-                                    ][index];
+                        isVotingScreenVisible && (
+                            <Screen>
+                                <SuggestedWord>
+                                    <Title>투표</Title>
+                                    <Content>라이어를 지목하세요!</Content>
+                                </SuggestedWord>
+                                {players.length > 0 && (
+                                    <PlayerList>
+                                        {players
+                                            .filter(
+                                                (player) =>
+                                                    player.name.trim() !== ''
+                                            )
+                                            .map((player, index) => {
+                                                const PlayerComponent =
+                                                    PlayerComponents[index] ||
+                                                    'div';
+                                                const NumberIconComponent =
+                                                    NumberIconComponents[
+                                                        index
+                                                    ] || 'div';
 
-                                    return (
-                                        <PlayerComponent
-                                            key={player.id}
-                                            style={{
-                                                opacity:
-                                                    votedPlayer === player.id
-                                                        ? 0.5
-                                                        : 1,
-                                            }}
+                                                return (
+                                                    <PlayerComponent
+                                                        key={player.id}
+                                                        style={{
+                                                            opacity:
+                                                                votedPlayer ===
+                                                                player.id
+                                                                    ? 0.5
+                                                                    : 1,
+                                                        }}
+                                                    >
+                                                        <PlayerName>
+                                                            <NumberIconComponent>
+                                                                {index + 1}
+                                                            </NumberIconComponent>
+                                                            <div className="name">
+                                                                {player.name}
+                                                            </div>
+                                                        </PlayerName>
+                                                        <VotingButton
+                                                            onClick={() => {
+                                                                handleVote(
+                                                                    player.id
+                                                                );
+                                                                handleClick(
+                                                                    player.id
+                                                                );
+                                                            }}
+                                                            disabled={
+                                                                votedPlayer !==
+                                                                    null &&
+                                                                clickedPlayer !==
+                                                                    player.id
+                                                            }
+                                                        >
+                                                            {votedPlayer ===
+                                                            player.id
+                                                                ? '투표취소'
+                                                                : '투표하기'}
+                                                        </VotingButton>
+                                                    </PlayerComponent>
+                                                );
+                                            })}
+                                    </PlayerList>
+                                )}
+                                <WarningSecond>
+                                    <WarningIcons />
+                                    <WarningText>
+                                        <div
+                                            className="Timer"
+                                            style={{ color: 'red' }}
                                         >
-                                            <PlayerName>
-                                                <NumberIconComponent>
-                                                    {index + 1}
-                                                </NumberIconComponent>
-                                                <div className="name">
-                                                    {player.name}
-                                                </div>
-                                            </PlayerName>
-                                            <VotingButton
-                                                isClicked={
-                                                    clickedPlayer === player.id
-                                                }
-                                                onClick={() => {
-                                                    handleVote(player.id);
-                                                    handleClick(player.id);
-                                                }}
-                                                disabled={
-                                                    votedPlayer !== null &&
-                                                    clickedPlayer !== player.id
-                                                }
-                                            >
-                                                {votedPlayer === player.id
-                                                    ? '투표취소'
-                                                    : '투표하기'}
-                                            </VotingButton>
-                                        </PlayerComponent>
-                                    );
-                                })}
-                            </PlayerList>
-                            <WarningSecond>
-                                <WarningIcons />
-                                <WarningText>
-                                    <div
-                                        className="Timer"
-                                        style={{ color: 'red' }}
-                                    >
-                                        {secondTimer}초
-                                    </div>
-                                    남았습니다.
-                                </WarningText>
-                            </WarningSecond>
-                        </Screen>
+                                            {secondTimer}초
+                                        </div>
+                                        남았습니다.
+                                    </WarningText>
+                                </WarningSecond>
+                            </Screen>
+                        )
                     )}
                     {isGameRuleOpen && (
                         <GameRule closeGameRule={closeGameRule} />

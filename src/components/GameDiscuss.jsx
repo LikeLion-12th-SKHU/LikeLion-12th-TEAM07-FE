@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import GameRule from './GameRule';
 import { useNavigate, useLocation } from 'react-router-dom';
+import GameRule from './GameRule';
 import EffectSound from './EffectSound';
 import logoImage from '../assets/logo.png';
 import ChatingIcon from '../assets/chatIcon.png';
@@ -17,11 +17,12 @@ import {
     Element1,
     Element2,
     Element3,
-    GameRuleWindow,
     Element4,
-    WarningText,
     Element5,
     Element6,
+    Element7,
+    GameRuleWindow,
+    WarningText,
     WarningIcons,
     Screen,
     Ele,
@@ -35,27 +36,36 @@ import {
     SuggestedWordCheck,
     ChatIcon,
     Input,
-    Element7,
+    InputButton,
     ClockIcon,
     Chat,
-    InputButton,
 } from '../css/GameDiscussCss.js';
 import { Logo, LogoContainer, GameName } from '../css/GameRoom.js';
 
-const GameDiscuss = ({ openSettings }) => {
+const GameDiscuss = () => {
     const [isGameRuleOpen, setIsGameRuleOpen] = useState(false);
-    const [timer, setTimer] = useState(10);
+    const [timer, setTimer] = useState(5);
     const [secondTimer, setSecondTimer] = useState(100);
+    // 채팅치는 시간ㄴ
     const [messages, setMessages] = useState([]);
     const [currentMessage, setCurrentMessage] = useState('');
-    const effectSound = useRef(null);
-    const location = useLocation();
-    const navigate = useNavigate();
-    const roomData = location.state || {};
+    const [shuffledPlayers, setShuffledPlayers] = useState([]);
     const [isTimerVisible, setIsTimerVisible] = useState(true);
     const [isSecondTimerVisible, setIsSecondTimerVisible] = useState(false);
+    const [isSending, setIsSending] = useState(false);
 
+    const effectSound = useRef(null);
     const chatContainerRef = useRef(null);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const roomData = location.state || {};
+    const subTopic = location.state?.subTopic || '없음';
+
+    useEffect(() => {
+        if (roomData.shuffledPlayers) {
+            setShuffledPlayers(roomData.shuffledPlayers);
+        }
+    }, [roomData.shuffledPlayers]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -78,7 +88,9 @@ const GameDiscuss = ({ openSettings }) => {
                 setSecondTimer((prev) => {
                     if (prev <= 1) {
                         clearInterval(secondInterval);
-                        return navigate('/liar-find', { state: roomData });
+                        navigate('/liar-find', {
+                            state: { ...roomData, shuffledPlayers, subTopic },
+                        });
                     }
                     return prev - 1;
                 });
@@ -86,7 +98,7 @@ const GameDiscuss = ({ openSettings }) => {
 
             return () => clearInterval(secondInterval);
         }
-    }, [isSecondTimerVisible]);
+    }, [isSecondTimerVisible, shuffledPlayers, navigate, roomData, subTopic]);
 
     useEffect(() => {
         if (chatContainerRef.current) {
@@ -110,14 +122,37 @@ const GameDiscuss = ({ openSettings }) => {
     };
 
     const handleSendMessage = () => {
-        if (currentMessage.trim() !== '') {
-            setMessages([...messages, currentMessage]);
+        if (!isSending && currentMessage.trim() !== '') {
+            setIsSending(true); // 메시지 전송 시작
+            setMessages((prevMessages) => [...prevMessages, currentMessage]);
             setCurrentMessage('');
+            setTimeout(() => setIsSending(false), 500); // 메시지 전송 후 0.5초 대기
         }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    };
+
+    const handleClickSend = () => {
+        handleSendMessage();
     };
 
     const progress = ((100 - secondTimer) / 100) * 100;
     const timerColor = secondTimer <= 10 ? 'red' : 'black';
+
+    const ElementComponents = [
+        Element1,
+        Element2,
+        Element3,
+        Element4,
+        Element5,
+        Element6,
+        Element7,
+    ];
 
     return (
         <>
@@ -141,36 +176,22 @@ const GameDiscuss = ({ openSettings }) => {
                             </Logo>
                         </ProfileBack>
                         <DetailCategory>
-                            <Ele>
-                                <Element1>1</Element1>
-                                <PlayerId>mubin</PlayerId>
-                            </Ele>
-                            <Ele>
-                                <Element2>2</Element2>
-                                <PlayerId>yurim</PlayerId>
-                            </Ele>
-                            <Ele>
-                                <Element3>3</Element3>
-                                <PlayerId>seoyun</PlayerId>
-                            </Ele>
-                            <Ele>
-                                <Element4>4</Element4>
-                                <PlayerId>giwoong</PlayerId>
-                            </Ele>
-                            <Ele>
-                                <Element5>5</Element5>
-                                <PlayerId>giwoong</PlayerId>
-                            </Ele>
-                            <Ele>
-                                <Element6>6</Element6>
-                                <PlayerId>giwoong</PlayerId>
-                            </Ele>
+                            {shuffledPlayers.map((player, index) => {
+                                if (player.name === '') return null;
+
+                                const Element =
+                                    ElementComponents[index] || 'Element7';
+                                return (
+                                    <Ele key={player.id}>
+                                        <Element>{index + 1}</Element>
+                                        <PlayerId>{player.name}</PlayerId>
+                                    </Ele>
+                                );
+                            })}
                             {isSecondTimerVisible && (
                                 <Ele>
                                     <Element7>
-                                        <ClockIcon
-                                            progress={progress}
-                                        ></ClockIcon>
+                                        <ClockIcon progress={progress} />
                                     </Element7>
                                     <PlayerId style={{ color: timerColor }}>
                                         <span>{secondTimer} 초</span>
@@ -216,6 +237,7 @@ const GameDiscuss = ({ openSettings }) => {
                                     <div
                                         className="ConversationList"
                                         key={index}
+                                        style={{ whiteSpace: 'pre-wrap' }}
                                     >
                                         {message}
                                     </div>
@@ -236,14 +258,15 @@ const GameDiscuss = ({ openSettings }) => {
                                         placeholder="채팅을 입력해주세요."
                                         maxLength={100}
                                         value={currentMessage}
+                                        onKeyDown={handleKeyDown}
                                         onChange={handleInputChange}
                                     />
-                                    <InputButton onClick={handleSendMessage}>
+                                    <InputButton onClick={handleClickSend}>
                                         전송
                                     </InputButton>
                                 </Chat>
                                 <div className="under">
-                                    ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+                                    ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
                                 </div>
                             </ChatContainer>
                         </Screen>
@@ -251,7 +274,7 @@ const GameDiscuss = ({ openSettings }) => {
                 </LobbyBody>
             </Container>
             <EffectSound ref={effectSound} />
-            {isGameRuleOpen && <GameRule onClose={closeGameRule} />}
+            {isGameRuleOpen && <GameRule closeGameRule={closeGameRule} />}
         </>
     );
 };

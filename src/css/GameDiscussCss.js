@@ -29,7 +29,7 @@ export const ClockIcon = styled.div`
     height: 50px;
     border-radius: 50%;
     background: conic-gradient(
-        lightgrey ${(props) => props.progress}%,
+        lightgrey ${(props) => props.$progress}%,
         #2f3233 0%
     );
     display: flex;
@@ -72,14 +72,14 @@ export const Input = styled.input`
     color: #000000;
     font-size: 24px;
     border-radius: 5px;
-    border: none; // 테두리 제거
-    outline: none; // 포커스 시 생기는 기본 테두리 제거
+    border: none;
+    outline: none;
     width: 90%;
     margin-top: 20px;
     margin-left: 20px;
-
-    background-color: none; // 배경색 추가
+    background-color: transparent; // 수정된 부분
 `;
+
 export const WarningIcons = styled(PiWarningCircleFill)`
     width: 40px;
     height: auto;
@@ -516,11 +516,11 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
-   padding: 20px;
+    padding: 20px;
     align-items: center;
     display: flex;
     justify-content: left;
-    font-size: 35px
+    font-size: 35px;
     width: 100%;
     height: 30px;
     background-color: #000000;

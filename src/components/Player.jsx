@@ -8,34 +8,38 @@ import {
     Number6,
     Name,
 } from '../css/PlayerCss.js';
+
 const Player = () => {
+    const PlayerList = [
+        { id: 'player1', name: 'mubin' },
+        { id: 'player2', name: 'yurim' },
+        { id: 'player3', name: 'seoyun' },
+        { id: 'player4', name: 'giwoong1' },
+        { id: 'player5', name: 'giwoong2' },
+        { id: 'player6', name: '' },
+    ];
     return (
         <>
-            <PlayerContainer>
-                <Number1 />
-                <Name>mubin</Name>
-            </PlayerContainer>
-            <PlayerContainer>
-                <Number2 />
-                <Name>yurim</Name>
-            </PlayerContainer>
-            <PlayerContainer>
-                <Number3 />
-                <Name> seoyun</Name>
-            </PlayerContainer>
-            <PlayerContainer>
-                <Number4 />
-                <Name>giwoong</Name>
-            </PlayerContainer>
-            <PlayerContainer>
-                <Number5 />
-                <Name>giwoong</Name>
-            </PlayerContainer>
-            <PlayerContainer>
-                <Number6 />
-                <Name>. . .</Name>
-            </PlayerContainer>
+            {PlayerList.map((player, index) => {
+                const NumberComponent = [
+                    Number1,
+                    Number2,
+                    Number3,
+                    Number4,
+                    Number5,
+                    Number6,
+                ][index];
+                const displayName =
+                    player.name && player.name.trim() ? player.name : '• • •';
+                return (
+                    <PlayerContainer key={player.id}>
+                        <NumberComponent />
+                        <Name>{displayName}</Name>
+                    </PlayerContainer>
+                );
+            })}
         </>
     );
 };
+
 export default Player;

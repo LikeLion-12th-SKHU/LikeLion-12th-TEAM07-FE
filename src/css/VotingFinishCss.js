@@ -21,6 +21,39 @@ export const RoomOut = styled.button`
     }
     margin-right: 10px;
 `;
+export const ClockIcon = styled.div`
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(
+        lightgrey ${(props) => props.$progress}%,
+        #2f3233 0%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+export const Element7 = styled.div`
+    font-weight: bold;
+    font-size: 20px;
+    width: 30%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 60px;
+    border: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-image: linear-gradient(
+        to right bottom,
+        rgb(221, 221, 221),
+        rgb(181, 181, 181)
+    );
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    transform-origin: right;
+`;
 export const NextRound = styled.div`
     width: 300px;
     height: 60px;
@@ -41,7 +74,8 @@ export const ButtonContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-left: 70px;
+    position: absolute;
+    right: 340px;
 `;
 export const ViewResult = styled.button`
     width: 100px;
@@ -88,8 +122,6 @@ export const Result = styled.div`
     .playerName {
         font-weight: bold;
         font-size: 33px;
-        margin-left: 8px;
-        margin-right: 8px;
     }
     .Liar {
         color: rgb(235, 87, 87);
@@ -105,8 +137,34 @@ export const Result = styled.div`
         margin-left: 8px;
         margin-right: 8px;
     }
+    .invalidVote1 {
+        display: flex;
+        justify-content: left;
+        flex-direction: row;
+        align-items: center;
+        position: absolute;
+        left: 340px;
+    }
+    .invalidVote2 {
+        color: rgb(235, 87, 87);
+        font-weight: bold;
+        font-size: 30px;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+    .ALL {
+        position: absolute;
+        left: 340px;
+        display: flex;
+        justify-content: left;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+    }
     display: flex;
-    justify-content: right;
+    justify-content: left;
     flex-direction: row;
     align-items: center;
     width: 94%;
@@ -119,6 +177,7 @@ export const Result = styled.div`
     margin-bottom: 2%;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
     font-size: 28px;
+    position: relative;
 `;
 
 export const NumberIcon1 = styled.div`
@@ -319,13 +378,11 @@ export const PlayerName = styled.div`
         font-weight: bold;
         border-radius: 30px;
         text-decoration: ${(props) =>
-            props.isTopPlayer
-                ? 'line-through'
-                : 'none'}; // 탈락한 플레이어 이름에 취소선 추가
+            props.isEliminated ? 'line-through' : 'none'};
         background-color: ${(props) =>
             props.isTopPlayer
-                ? '#aaaaaa'
-                : '#dddddd'}; // 탈락한 플레이어의 배경색을 연회색으로 설정
+                ? '#a0a0a0' // 가장 많은 득표를 받은 사람의 배경색
+                : '#dfdfdf'}; // 기본 배경색
     }
 `;
 export const WarningIcons = styled(PiWarningCircleFill)`
@@ -557,7 +614,22 @@ export const SuggestedWordCheck = styled.div`
     border-left: 15px solid rgb(191, 97, 25);
     border-bottom: none;
 `;
-export const Timer = styled.div``;
+export const Timer = styled.div`
+    .time {
+        margin-left: 10px;
+        color: #ce4a4a;
+    }
+    width: 300px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 300px;
+`;
 export const Content1 = styled.div`
     align-items: end;
 
@@ -604,12 +676,13 @@ export const Ele = styled.div`
     flex-direction: row;
     width: 100%;
     height: 60px;
-
+    background-color: #dfdfdf;
     padding: 0;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 `;
+
 export const Title = styled.div`
     display: flex;
     padding-left: 15px;
@@ -632,7 +705,7 @@ export const Title = styled.div`
     );
     box-shadow: 6px 0px 2px rgba(0, 0, 0, 0.3);
 `;
-export const SuggestedWord = styled.div`
+export const SuggesteWord = styled.div`
     padding-left: 0;
     display: flex;
     flex-direction: row;

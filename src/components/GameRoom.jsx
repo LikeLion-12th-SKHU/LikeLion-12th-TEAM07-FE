@@ -57,7 +57,12 @@ const GameRoom = ({ openSettings }) => {
     const gameStartClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/game-start', { state: roomData });
+            navigate('/game-start', {
+                state: {
+                    ...roomData,
+                    layers: [],
+                },
+            });
         }, 140);
     };
 
