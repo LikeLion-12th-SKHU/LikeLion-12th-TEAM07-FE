@@ -13,6 +13,9 @@ import RoomSettings from './components/RoomSettings'; // 방 설정
 import { AuthProvider } from './contexts/AuthContext';
 import MyPage from './components/MyPage';
 import GameStart from './components/GameStart';
+import GameDiscuss from './components/GameDiscuss';
+import FindLiar from './components/FindLiar';
+import VotingFinish from './components/VotingFinish';
 
 function App() {
     const [volume, setVolume] = useState(
@@ -46,6 +49,18 @@ function App() {
         <Router>
             <AuthProvider>
                 <Routes>
+                    <Route
+                        path="/voting-finish"
+                        element={<VotingFinish rooms={rooms} />}
+                    />
+                    <Route
+                        path="/liar-find"
+                        element={<FindLiar rooms={rooms} />}
+                    />
+                    <Route
+                        path="/game-discuss"
+                        element={<GameDiscuss rooms={rooms} />}
+                    />
                     <Route
                         path="/login"
                         element={
@@ -116,7 +131,16 @@ function App() {
                             />
                         }
                     />
-                    <Route path="/mypage" element={<MyPage />}></Route>
+                    <Route
+                        path="/mypage"
+                        element={
+                            <MyPage
+                                setBackgroundMusic={(status) =>
+                                    setControlMusic(status)
+                                }
+                            />
+                        }
+                    ></Route>
                 </Routes>
                 {controlMusic && (
                     <AutoAudio ref={backgroundMusicRef} volume={volume} />
