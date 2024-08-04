@@ -4,10 +4,6 @@ import EffectSound from "./EffectSound";
 
 import {
   MainContainer,
-  LogoContainer,
-  LogoImage,
-  Header,
-  NavLinks,
   RankingSection,
   RankingTitle,
   RankingTable,
@@ -23,6 +19,7 @@ import {
   RankingTitleContainer,
 } from "../css/HomeCss";
 import { useAuth } from "../contexts/AuthContext";
+import Header from "./Header";
 
 const rankings = [
   { rank: 1, nickname: "giwoong", score: 265, games: 265 },
@@ -34,7 +31,7 @@ const rankings = [
 
 const RankingBoard = ({ setBackgroundMusic }) => {
   const effectSound = useRef(null);
-  const { userInfo, logout } = useAuth();
+  const { userInfo } = useAuth();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -58,32 +55,9 @@ const RankingBoard = ({ setBackgroundMusic }) => {
         <Circle style={{ top: "50px", left: "20px" }} />
         <Circle style={{ top: "200px", right: "20px" }} />
         <Circle style={{ bottom: "150px", left: "200px" }} />
-        <LogoContainer>
-          <LogoImage
-            alt="LikeLiarimage"
-            src="img/LikeLiarnn.png"
-            onClick={() => navigate("/")}
-          />
-          <Header>
-            <h1>
-              {userInfo !== null ? (
-                <NavLinks onClick={logout}>로그아웃</NavLinks>
-              ) : (
-                <>
-                  <NavLinks onClick={() => navigate("/login")}>
-                    회원가입
-                  </NavLinks>
-                  <NavLinks onClick={() => navigate("/login")}>로그인</NavLinks>
-                </>
-              )}
 
-              <NavLinks onClick={() => navigate("/ranking")}>랭킹</NavLinks>
-              <NavLinks onClick={() => navigate("/mypage")}>
-                마이페이지
-              </NavLinks>
-            </h1>
-          </Header>
-        </LogoContainer>
+        <Header />
+
         <LogoContainer2>
           <LogoImage2 alt="lensimage" src="img/lens.png" />
           <Description>
