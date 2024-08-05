@@ -15,34 +15,14 @@ import {
   BackButton, // 새로운 스타일 추가
 } from "../css/RankingCss"; // 기존의 CSS 그대로 사용
 import Header from "./Header";
-
-const allRankings = [
-  { rank: 1, nickname: "giwoong", score: 265, games: 265 },
-  { rank: 2, nickname: "mubin", score: 263, games: 263 },
-  { rank: 3, nickname: "yurim", score: 261, games: 261 },
-  { rank: 4, nickname: "seoyun", score: 259, games: 259 },
-  { rank: 5, nickname: "likelion", score: 230, games: 230 },
-  { rank: 6, nickname: "hannah", score: 225, games: 225 },
-  { rank: 7, nickname: "seungmin", score: 220, games: 220 },
-  { rank: 8, nickname: "yuri", score: 215, games: 215 },
-  { rank: 9, nickname: "kyle", score: 210, games: 210 },
-  { rank: 10, nickname: "jenna", score: 205, games: 205 },
-  { rank: 11, nickname: "david", score: 200, games: 200 },
-  { rank: 12, nickname: "sophia", score: 195, games: 195 },
-  { rank: 13, nickname: "oliver", score: 190, games: 190 },
-  { rank: 14, nickname: "amelia", score: 185, games: 185 },
-  { rank: 15, nickname: "noah", score: 180, games: 180 },
-  { rank: 16, nickname: "ava", score: 175, games: 175 },
-  { rank: 17, nickname: "liam", score: 170, games: 170 },
-  { rank: 18, nickname: "isabella", score: 165, games: 165 },
-  { rank: 19, nickname: "jacob", score: 160, games: 160 },
-  { rank: 20, nickname: "mia", score: 155, games: 155 },
-];
+import axiosInstance from "../utils/apiConfig";
 
 const ITEMS_PER_PAGE = 10;
 
 const RankingPage = ({ setBackgroundMusic }) => {
   const effectSound = useRef(null);
+
+  const [rankingsMember, setRankingsMember] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
@@ -50,11 +30,34 @@ const RankingPage = ({ setBackgroundMusic }) => {
     setBackgroundMusic(false);
     return () => setBackgroundMusic(true);
   }, [setBackgroundMusic]);
-  const totalPages = Math.ceil(allRankings.length / ITEMS_PER_PAGE);
-  const rankings = allRankings.slice(
+
+  const totalPages = Math.ceil(rankingsMember.length / ITEMS_PER_PAGE);
+  const rankings = rankingsMember.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
+
+  useEffect(() => {
+    getRankings();
+  }, []);
+
+  const getRankings = async () => {
+    try {
+      const rankingsResponse = await axiosInstance.get(`/members/ranking`);
+      const rankingData = rankingsResponse.data.data.memberInfoResDtos.map(
+        (member) => ({
+          gameRounds: member.gameRounds,
+          name: member.name,
+          picture: member.picture,
+          score: member.score,
+        })
+      );
+
+      setRankingsMember(rankingData);
+    } catch (error) {
+      console.error("랭킹 목록을 가져오는데 실패했습니다.", error);
+    }
+  };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -68,24 +71,6 @@ const RankingPage = ({ setBackgroundMusic }) => {
     }
   };
 
-  const handleMembershipClick = () => {
-    effectSound.current.playSound();
-    setTimeout(() => {
-      navigate("/login");
-    }, 140);
-  };
-  const handleLoginClick = () => {
-    effectSound.current.playSound();
-    setTimeout(() => {
-      navigate("/login");
-    }, 140);
-  };
-  const handleRankingClick = () => {
-    effectSound.current.playSound();
-    setTimeout(() => {
-      navigate("/ranking");
-    }, 140);
-  };
   const previousPageClick = () => {
     effectSound.current.playSound();
     setTimeout(() => {
@@ -111,12 +96,12 @@ const RankingPage = ({ setBackgroundMusic }) => {
               </tr>
             </thead>
             <tbody>
-              {rankings.map((user) => (
-                <tr key={user.rank}>
-                  <TableCell>{user.rank}</TableCell>
-                  <TableCell>{user.nickname}</TableCell>
-                  <TableCell>{user.score}점</TableCell>
-                  <TableCell>{user.games}</TableCell>
+              {rankings.map((member, index) => (
+                <tr key={index + 1}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{member.name}</TableCell>
+                  <TableCell>{member.score}점</TableCell>
+                  <TableCell>{member.gameRounds}</TableCell>
                 </tr>
               ))}
             </tbody>
