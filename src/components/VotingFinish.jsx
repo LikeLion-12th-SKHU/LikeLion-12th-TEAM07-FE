@@ -62,31 +62,71 @@ const VotingFinish = () => {
     const subTopic = location.state?.subTopic || '없음';
 
     const [openResultSuggest, setOpenResultSuggest] = useState(false);
-    const [suggestedWord, setSuggestedWord] = useState(''); // 제시어 상태 추가
+    const [suggestedWord, setSuggestedWord] = useState('');
 
     const [openResult, setOpenResult] = useState(false);
     const [isGameRuleVisible, setIsGameRuleVisible] = useState(false);
-    const [timer, setTimer] = useState(30);
-    // const [isInvalidVote, setIsInvalidVote] = useState(false);
+    const [timer, setTimer] = useState(30); // 타이머 초기값 설정
     const effectSound = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setTimer((prev) => {
-                if (prev <= 1) {
-                    clearInterval(interval);
-                    handleTimerEnd();
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-
-        return () => clearInterval(interval);
+        if (timer <= 0) {
+            handleTimerEnd();
+        } else {
+            const interval = setInterval(() => {
+                setTimer((prev) => {
+                    if (prev <= 1) {
+                        clearInterval(interval);
+                        handleTimerEnd();
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+            return () => clearInterval(interval);
+        }
     }, [timer]);
-
     const handleTimerEnd = () => {
+        console.log('타이머 종료');
+
+        const updatedRoomData = { ...roomData };
+
+        // 탈락자의 정보를 공백으로 처리
+        if (topPlayer.job !== '라이어') {
+            updatedRoomData.shuffledPlayers =
+                updatedRoomData.shuffledPlayers.map((player) =>
+                    topPlayer.name === player.name
+                        ? { ...player, name: '', job: '' }
+                        : player
+                );
+        }
+
+        // 시민과 라이어의 수를 체크하여 같으면 FinalMatch로 이동
+        const liarCount = updatedRoomData.shuffledPlayers.filter(
+            (player) => player.job === '라이어' && player.name !== ''
+        ).length;
+        const citizenCount = updatedRoomData.shuffledPlayers.filter(
+            (player) => player.job === '시민' && player.name !== ''
+        ).length;
+
+        if (liarCount === citizenCount) {
+            navigate('/final-match', {
+                state: {
+                    roomData: updatedRoomData,
+                    subTopic: subTopic,
+                },
+            });
+        } else {
+            navigate('/game-discuss', {
+                state: {
+                    roomData: updatedRoomData,
+                    subTopic: subTopic,
+                },
+            });
+        }
+    };
+    const processVotes = () => {
         const playerVotes = roomData.shuffledPlayers.map((player) => ({
             ...player,
             votes: player.votes || 0,
@@ -102,25 +142,24 @@ const VotingFinish = () => {
             ? { name: '없음', job: '없음' }
             : topPlayers[0] || { name: '없음', job: '없음' };
 
-        if (isInvalidVote) {
-            setTimer(10);
-            // navigate('/game-discuss', {
-            //     state: {
-            //         ...roomData,
-            //         subTopic,
-            //     },
-            // });
-            // 무효가 되었기에 여기는 지금까지의 정보들을 다 보내서 채팅하는 부분부터 다시 시작합니다
-        } else if (topPlayer.job === '라이어') {
-            openGameResult();
+        if (topPlayer.job === '라이어') {
+            console.log('라이어 결과: 30초 타이머 설정');
+            setTimer(30);
         } else {
-            // 시민일 경우 정보를 . 다가지고 다음 다운드로 가야합니다
+            console.log('시민 또는 무효표 결과: 10초 타이머 설정');
+            setTimer(10);
         }
     };
 
+    useEffect(() => {
+        console.log('실행되는지 확인');
+
+        processVotes();
+    }, [roomData]);
+
     const OpenSuggestedWord = () => {
         effectSound.current.playSound();
-        setSuggestedWord(roomData.topic); // 제시어 설정
+        setSuggestedWord(roomData.topic);
         setOpenResultSuggest(true);
     };
 
@@ -171,8 +210,7 @@ const VotingFinish = () => {
         Element6,
         Element7,
     ];
-
-    // 결과 계산
+    const gameResult = '시민';
     const playerVotes = roomData.shuffledPlayers.map((player) => ({
         ...player,
         votes: player.votes || 0,
@@ -253,7 +291,6 @@ const VotingFinish = () => {
                         </DetailCategory>
                         <GameRuleWindow onClick={toggleGameRule} />
                     </Category>
-
                     <Screen>
                         <SuggesteWord>
                             <Title>투표</Title>
@@ -261,7 +298,7 @@ const VotingFinish = () => {
                         </SuggesteWord>
                         <PlayerList>
                             {roomData.shuffledPlayers.map((player, index) => {
-                                if (player.name === '') return null; // 이름이 빈 경우 렌더링하지 않음
+                                if (player.name === '') return null;
 
                                 const PlayerComponent =
                                     PlayerComponents[index] || 'div';
@@ -271,7 +308,6 @@ const VotingFinish = () => {
                                 const isTopPlayer = topPlayers.includes(player);
                                 const isEliminated =
                                     !isTopPlayer && player.votes > 0;
-
                                 return (
                                     <PlayerComponent
                                         key={player.id}
@@ -336,7 +372,13 @@ const VotingFinish = () => {
                                 </div>
                             )}
                         </Result>
-                        {openResult && <GameResult onClose={closeGameResult} />}
+                        {openResult && (
+                            <GameResult
+                                result={gameResult}
+                                onClose={closeGameResult}
+                                roomData={roomData}
+                            />
+                        )}{' '}
                         {openResultSuggest && (
                             <SuggestedWord
                                 word={suggestedWord}
@@ -344,7 +386,6 @@ const VotingFinish = () => {
                                 onClose={closeSuggestedWord}
                             />
                         )}
-
                         {isGameRuleVisible && (
                             <GameRule onClose={toggleGameRule} />
                         )}

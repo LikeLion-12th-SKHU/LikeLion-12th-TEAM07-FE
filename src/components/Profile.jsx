@@ -46,7 +46,7 @@ const Profile = () => {
                 <InfoContainer>
                     <Ranking>
                         {/* 아직 보류 */}
-                        {isGuest ? '정보 없음' : `랭킹: ${userInfo.ranking}`}
+                        {isGuest ? '정보 없음' : `랭킹: 0`}
                     </Ranking>
                     <Score>
                         {/* 아직 보류 */}

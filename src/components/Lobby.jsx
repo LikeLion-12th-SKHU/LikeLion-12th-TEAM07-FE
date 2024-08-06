@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import GameRule from './GameRule';
 import Profile from './Profile';
 import EffectSound from './EffectSound';
 import GameRoomList from './GameRoomList'; // 방 목록 컴포넌트
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import axiosInstance from '../utils/apiConfig';
 
 import {
     Container,
@@ -23,9 +25,21 @@ import {
 } from '../css/LobbyCss.js';
 
 const Lobby = ({ openSettings, rooms = [] }) => {
-    const [isGameRuleOpen, setIsGameRuleOpen] = React.useState(false);
+    const [isGameRuleOpen, setIsGameRuleOpen] = useState(false);
     const effectSound = useRef(null);
     const navigate = useNavigate();
+    const [isresponse, setIsResponse] = useState([]);
+    useEffect(() => {
+        const fetchRooms = async () => {
+            try {
+                const response = await axiosInstance.get('/rooms');
+                setIsResponse(response.data); // 응답 데이터를 상태에 저장
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchRooms();
+    }, []); // 컴포넌트 마운트 시에만 실행
 
     const openGameRule = () => {
         effectSound.current.playSound();
@@ -92,7 +106,6 @@ const Lobby = ({ openSettings, rooms = [] }) => {
                         </DetailCategory>
                         <GameRuleWindow onClick={openGameRule} />
                     </Category>
-
                     <GameLIst>
                         <GameRoomList rooms={rooms} />
                     </GameLIst>

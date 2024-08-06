@@ -40,26 +40,32 @@ import {
     ClockIcon,
     Chat,
 } from '../css/GameDiscussCss.js';
-import { Logo, LogoContainer, GameName } from '../css/GameRoom.js';
+import { Logo as GameLogo, LogoContainer, GameName } from '../css/GameRoom.js';
 
 const GameDiscuss = () => {
     const [isGameRuleOpen, setIsGameRuleOpen] = useState(false);
-    const [timer, setTimer] = useState(5);
-    const [secondTimer, setSecondTimer] = useState(100);
-    // 채팅치는 시간ㄴ
+    const [timer, setTimer] = useState(1);
+    const [secondTimer, setSecondTimer] = useState(10);
     const [messages, setMessages] = useState([]);
     const [currentMessage, setCurrentMessage] = useState('');
     const [shuffledPlayers, setShuffledPlayers] = useState([]);
     const [isTimerVisible, setIsTimerVisible] = useState(true);
     const [isSecondTimerVisible, setIsSecondTimerVisible] = useState(false);
     const [isSending, setIsSending] = useState(false);
-
     const effectSound = useRef(null);
     const chatContainerRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
-    const roomData = location.state || {};
-    const subTopic = location.state?.subTopic || '없음';
+    const roomData = location.state;
+    //임시 더미
+    const PlayerList = [
+        { id: 'player1', name: 'mubin', votes: 0, job: '' },
+        { id: 'player2', name: 'yurim', votes: 0, job: '' },
+        { id: 'player3', name: 'yurim', votes: 0, job: '' },
+        { id: 'player4', name: '', votes: 0, job: '' },
+        { id: 'player5', name: '', votes: 0, job: '' },
+        { id: 'player6', name: '', votes: 0, job: '' },
+    ];
 
     useEffect(() => {
         if (roomData.shuffledPlayers) {
@@ -89,7 +95,7 @@ const GameDiscuss = () => {
                     if (prev <= 1) {
                         clearInterval(secondInterval);
                         navigate('/liar-find', {
-                            state: { ...roomData, shuffledPlayers, subTopic },
+                            state: { ...roomData, shuffledPlayers },
                         });
                     }
                     return prev - 1;
@@ -98,7 +104,7 @@ const GameDiscuss = () => {
 
             return () => clearInterval(secondInterval);
         }
-    }, [isSecondTimerVisible, shuffledPlayers, navigate, roomData, subTopic]);
+    }, [isSecondTimerVisible, shuffledPlayers, navigate, roomData]);
 
     useEffect(() => {
         if (chatContainerRef.current) {
@@ -123,10 +129,10 @@ const GameDiscuss = () => {
 
     const handleSendMessage = () => {
         if (!isSending && currentMessage.trim() !== '') {
-            setIsSending(true); // 메시지 전송 시작
+            setIsSending(true);
             setMessages((prevMessages) => [...prevMessages, currentMessage]);
             setCurrentMessage('');
-            setTimeout(() => setIsSending(false), 500); // 메시지 전송 후 0.5초 대기
+            setTimeout(() => setIsSending(false), 500);
         }
     };
 
@@ -163,7 +169,7 @@ const GameDiscuss = () => {
                 <LobbyBody>
                     <Category>
                         <ProfileBack>
-                            <Logo>
+                            <GameLogo>
                                 <LogoContainer>
                                     <img
                                         className="logo"
@@ -172,19 +178,29 @@ const GameDiscuss = () => {
                                     />
                                     <p className="miniTitle">[ 방 제목 ]</p>
                                 </LogoContainer>
-                                <GameName>{roomData.name}</GameName>
-                            </Logo>
+                                <GameName>
+                                    {roomData.roomData.data.roomName}
+                                </GameName>
+                            </GameLogo>
                         </ProfileBack>
                         <DetailCategory>
-                            {shuffledPlayers.map((player, index) => {
+                            {PlayerList.map((player, index) => {
+                                const ElementComponents = [
+                                    Element1,
+                                    Element2,
+                                    Element3,
+                                    Element4,
+                                    Element5,
+                                    Element6,
+                                ];
                                 if (player.name === '') return null;
-
                                 const Element =
-                                    ElementComponents[index] || 'Element7';
+                                    ElementComponents[index] || Element6;
+
                                 return (
-                                    <Ele key={player.id}>
+                                    <Ele key={index}>
                                         <Element>{index + 1}</Element>
-                                        <PlayerId>{player.name}</PlayerId>
+                                        <PlayerId>{player.name || ''}</PlayerId>
                                     </Ele>
                                 );
                             })}
@@ -205,7 +221,9 @@ const GameDiscuss = () => {
                         <Screen>
                             <SuggestedWord>
                                 <Title>주제</Title>
-                                <Content>{roomData.topic}</Content>
+                                <Content>
+                                    {roomData.roomData.data.subject}
+                                </Content>
                             </SuggestedWord>
                             <SuggestedWordCheck>
                                 <Content1>
@@ -230,7 +248,9 @@ const GameDiscuss = () => {
                         <Screen>
                             <SuggestedWord>
                                 <Title>주제</Title>
-                                <Content>{roomData.topic}</Content>
+                                <Content>
+                                    {roomData.roomData.data.subject}
+                                </Content>
                             </SuggestedWord>
                             <Conversation ref={chatContainerRef}>
                                 {messages.map((message, index) => (
@@ -266,7 +286,7 @@ const GameDiscuss = () => {
                                     </InputButton>
                                 </Chat>
                                 <div className="under">
-                                    ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+                                    ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
                                 </div>
                             </ChatContainer>
                         </Screen>

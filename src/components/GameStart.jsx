@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import GameRule from './GameRule';
 import { useNavigate, useLocation } from 'react-router-dom';
 import EffectSound from './EffectSound';
 import logoImage from '../assets/logo.png';
 import image from '../assets/돋보기.png';
+
+import axiosInstance from '../utils/apiConfig'; // axiosInstance를 사용하여 API 호출
 import {
     Container,
     Warning,
@@ -42,98 +43,18 @@ import {
     Sub,
 } from '../css/GameStartCss.js';
 import { Logo, LogoContainer, GameName } from '../css/GameRoom.js';
+import GameRule from './GameRule';
 
-const subtopics = {
-    '신체 건강': [
-        '운동',
-        '영양',
-        '다이어트',
-        '수분 섭취',
-        '체력',
-        '유연성',
-        '근력',
-        '심폐 지구력',
-        '대사',
-        '근육',
-    ],
-    '정신 건강': [
-        '스트레스 관리',
-        '명상',
-        '요가',
-        '상담',
-        '감정 조절',
-        '우울증',
-        '불안',
-        '정신 치료',
-        '마음 챙김',
-        '긍정적 사고',
-    ],
-    '예방 및 관리': [
-        '건강검진',
-        '예방 접종',
-        '검진',
-        '정기 검사',
-        '스크리닝',
-        '건강 보험',
-        '예방 의학',
-        '건강 관리 계획',
-        '병원',
-        '클리닉',
-    ],
-    식생활: [
-        '영양소',
-        '비타민',
-        '미네랄',
-        '항산화제',
-        '식단',
-        '건강 식품',
-        '슈퍼푸드',
-        '식이섬유',
-        '단백질',
-        '저지방',
-    ],
-    '생활 습관': [
-        '수면',
-        '휴식',
-        '규칙적인 생활',
-        '위생',
-        '금연',
-        '절주',
-        '스트레칭',
-        '걷기',
-        '재충전',
-        '자외선 차단',
-    ],
-    '질병 및 치료': [
-        '면역력',
-        '감염',
-        '염증',
-        '항생제',
-        '백신',
-        '수술',
-        '약물',
-        '재활',
-        '물리치료',
-        '응급처치',
-    ],
-    '건강 상태': [
-        '심혈관',
-        '혈압',
-        '콜레스테롤',
-        '당뇨',
-        '비만',
-        '골다공증',
-        '관절염',
-        '천식',
-        '알레르기',
-        '소화',
-    ],
-};
-
-const getRandomSubtopic = (topic) => {
-    const topics = subtopics[topic] || [];
-    const randomIndex = Math.floor(Math.random() * topics.length);
-    return topics[randomIndex] || '';
+const fetchRandomWord = async (subject) => {
+    try {
+        const response = await axiosInstance.get(
+            `/words/one?subject=${subject}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return '';
+    }
 };
 
 const shuffleArray = (array) => {
@@ -159,7 +80,7 @@ const assignRoles = (players) => {
 
 const GameStart = ({ openSettings }) => {
     const [isGameRuleOpen, setIsGameRuleOpen] = useState(false);
-    const [timer, setTimer] = useState(30); // 타이머 상태 20초
+    const [timer, setTimer] = useState(20); // 타이머 상태 30초
     const [containers, setContainers] = useState([]);
     const [isButtonVisible, setIsButtonVisible] = useState(true);
     const [currentSubtopic, setCurrentSubtopic] = useState('');
@@ -170,13 +91,13 @@ const GameStart = ({ openSettings }) => {
     const effectSound = useRef(null);
     const location = useLocation();
     const navigate = useNavigate();
-    const roomData = location.state || {};
+    const roomData = location.state;
 
     const PlayerList = [
         { id: 'player1', name: 'mubin', votes: 0, job: '' },
         { id: 'player2', name: 'yurim', votes: 0, job: '' },
-        { id: 'player3', name: 'seoyun', votes: 0, job: '' },
-        { id: 'player4', name: 'seoyun', votes: 0, job: '' },
+        { id: 'player3', name: 'yurim', votes: 0, job: '' },
+        { id: 'player4', name: '', votes: 0, job: '' },
         { id: 'player5', name: '', votes: 0, job: '' },
         { id: 'player6', name: '', votes: 0, job: '' },
     ];
@@ -200,10 +121,15 @@ const GameStart = ({ openSettings }) => {
     }, [isRandomized]);
 
     useEffect(() => {
-        if (roomData.topic) {
-            setCurrentSubtopic(getRandomSubtopic(roomData.topic));
-        }
-    }, [roomData.topic]);
+        const fetchSubtopic = async () => {
+            if (roomData.data.subject) {
+                const word = await fetchRandomWord(roomData.data.subject);
+                setCurrentSubtopic(word);
+            }
+        };
+
+        fetchSubtopic();
+    }, [roomData.data.subject]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -211,9 +137,7 @@ const GameStart = ({ openSettings }) => {
                 if (prev <= 1) {
                     navigate('/game-discuss', {
                         state: {
-                            ...roomData,
-                            shuffledPlayers,
-                            subTopic: currentSubtopic,
+                            roomData,
                         },
                     });
                     setIsRandomized(true);
@@ -224,7 +148,7 @@ const GameStart = ({ openSettings }) => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [navigate, roomData, shuffledPlayers]);
+    }, [navigate, roomData, shuffledPlayers, currentSubtopic]);
 
     const timerColor = timer <= 10 ? 'red' : 'black';
 
@@ -291,7 +215,7 @@ const GameStart = ({ openSettings }) => {
                                     />
                                     <p className="miniTitle">[ 방 제목 ]</p>
                                 </LogoContainer>
-                                <GameName>{roomData.name}</GameName>
+                                <GameName>{roomData.data.roomName}</GameName>
                             </Logo>
                         </ProfileBack>
                         <DetailCategory>
@@ -321,7 +245,7 @@ const GameStart = ({ openSettings }) => {
                     <Screen>
                         <SuggestedWord>
                             <Title>주제</Title>
-                            <Content>{roomData.topic}</Content>
+                            <Content>{roomData.data.subject}</Content>
                         </SuggestedWord>
                         <SuggestedWordCheck>
                             <After>
@@ -351,6 +275,8 @@ const GameStart = ({ openSettings }) => {
                                                             <SuggestTopic>
                                                                 {
                                                                     currentSubtopic
+                                                                        .data
+                                                                        .vocabulary
                                                                 }
                                                             </SuggestTopic>
                                                         </Topic>
@@ -364,6 +290,8 @@ const GameStart = ({ openSettings }) => {
                                                             <div className="subBody2">
                                                                 {
                                                                     currentSubtopic
+                                                                        .data
+                                                                        .vocabulary
                                                                 }
                                                             </div>
                                                             <div className="subBody3">
@@ -371,11 +299,14 @@ const GameStart = ({ openSettings }) => {
                                                             </div>
                                                         </div>
                                                         <div className="subBody4">
-                                                            ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+                                                            ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
                                                         </div>
                                                         <Sub>
-                                                            제시어에 대한 설명이
-                                                            적힐 곳
+                                                            {
+                                                                currentSubtopic
+                                                                    .data
+                                                                    .description
+                                                            }
                                                         </Sub>
                                                     </SubStance>
                                                 </AfterClickContents>
@@ -414,7 +345,7 @@ const GameStart = ({ openSettings }) => {
                                                             </div>
                                                         </div>
                                                         <div className="subBody4">
-                                                            ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+                                                            ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
                                                         </div>
                                                         <Sub>
                                                             라이어에 대한 설명이

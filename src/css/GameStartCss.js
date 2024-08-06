@@ -61,7 +61,6 @@ export const Sub = styled.div`
     display: flex;
     width: 80%;
     height: 60%;
-    flex-direction: column;ㄴ
     align-items: center;
     justify-content: center;
     font-size: 50px;
