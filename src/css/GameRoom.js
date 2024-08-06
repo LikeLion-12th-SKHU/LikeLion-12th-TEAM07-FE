@@ -87,28 +87,28 @@ export const Button = styled.div`
 
     flex-direction: row;
 `;
-export const ReadyButton = styled.button`
-    cursor: pointer;
-    width: 180px;
-    font-weight: bold;
-    border: none;
-    border-radius: 20px;
-    font-size: 30px;
-    background-image: linear-gradient(
-        to right bottom,
-        rgb(255, 98, 98),
-        rgb(194, 70, 70)
-    );
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+// export const ReadyButton = styled.button`
+//     cursor: pointer;
+//     width: 180px;
+//     font-weight: bold;
+//     border: none;
+//     border-radius: 20px;
+//     font-size: 30px;
+//     background-image: linear-gradient(
+//         to right bottom,
+//         rgb(255, 98, 98),
+//         rgb(194, 70, 70)
+//     );
+//     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
 
-    &:active {
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-        transform: translateY(2px);
-    }
-`;
+//     &:active {
+//         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+//         transform: translateY(2px);
+//     }
+// `;
 export const StartButton = styled.button`
     cursor: pointer;
-    margin-left: 40px;
+    margin-left: 100px;
     width: 180px;
     border: none;
     border-radius: 20px;

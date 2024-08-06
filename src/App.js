@@ -16,6 +16,7 @@ import GameStart from './components/GameStart';
 import GameDiscuss from './components/GameDiscuss';
 import FindLiar from './components/FindLiar';
 import VotingFinish from './components/VotingFinish';
+import FinalMatch from './components/FinalMatch';
 
 function App() {
     const [volume, setVolume] = useState(
@@ -52,6 +53,10 @@ function App() {
                     <Route
                         path="/voting-finish"
                         element={<VotingFinish rooms={rooms} />}
+                    />
+                    <Route
+                        path="/final-match"
+                        element={<FinalMatch rooms={rooms} />}
                     />
                     <Route
                         path="/liar-find"

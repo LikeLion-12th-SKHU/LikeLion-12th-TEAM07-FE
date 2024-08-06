@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../utils/apiConfig'; // axios 인스턴스 가져오기
 import {
     Container,
     ContainerButton,
@@ -9,13 +10,13 @@ import {
     NameContainer,
 } from '../css/GameList.js';
 import logoImage from '../assets/logo.png';
-
 import useInfiniteScroll from '../hooks/useInfiniteScroll.js';
 
-const GameRoomList = ({ rooms }) => {
+const GameRoomList = ({ rooms, isresponse }) => {
     const [displayedRooms, setDisplayedRooms] = useState(rooms);
     const navigate = useNavigate();
-
+    console.log(rooms);
+    const props = isresponse;
     const loadMoreData = async (page) => {
         const PAGE_SIZE = 10;
         const startIndex = (page - 1) * PAGE_SIZE;
@@ -29,8 +30,14 @@ const GameRoomList = ({ rooms }) => {
         }
     };
 
-    const handleJoinRoom = (room) => {
-        navigate(`/room/${room.id}`, { state: room });
+    const handleJoinRoom = async (roomId) => {
+        try {
+            await axiosInstance.post(`/api/rooms/${roomId}/join`);
+            navigate(`/room/${roomId}`, { state: { roomId } });
+        } catch (error) {
+            console.error('방 참여 실패', error);
+            alert('방 참여에 실패했습니다. 다시 시도해주세요.');
+        }
     };
 
     const { containerRef } = useInfiniteScroll(loadMoreData);
@@ -41,7 +48,7 @@ const GameRoomList = ({ rooms }) => {
                 displayedRooms.map((room) => (
                     <ContainerButton
                         key={room.id}
-                        onClick={() => handleJoinRoom(room)}
+                        onClick={() => handleJoinRoom(props.data.gameRooms.id)} // 클릭 시 방 참여
                     >
                         <NameContainer>
                             <Logo>

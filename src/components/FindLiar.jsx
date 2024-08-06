@@ -109,7 +109,7 @@ const FindLiar = () => {
 
             return () => clearInterval(secondTimerInterval);
         }
-    }, [isVotingScreenVisible, navigate, players, roomData]);
+    }, [isVotingScreenVisible, navigate, players, roomData, subTopic]);
 
     const openGameRule = () => {
         effectSound.current.playSound();
@@ -125,9 +125,6 @@ const FindLiar = () => {
         setPlayers((prevPlayers) => {
             return prevPlayers.map((player) => {
                 if (player.id === playerId) {
-                    console.log(
-                        `Voted for player ${playerId}: ${player.votes}`
-                    );
                     if (votedPlayer === playerId) {
                         return { ...player, votes: (player.votes || 0) - 1 };
                     } else {

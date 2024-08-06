@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GameRule from './GameRule';
 import Profile from './Profile';
 import EffectSound from './EffectSound';
+import axiosInstance from '../utils/apiConfig';
 import {
     Container,
     Header,
@@ -53,30 +54,55 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
     const [votingTimeLimit, setVotingTimeLimit] = useState(10);
     const [description, setDescription] = useState('');
     const [selectedTopic, setSelectedTopic] = useState(topics[0]);
+    const [saveRoom, setSaveRoom] = useState([]);
 
-    const handleCreateGame = () => {
+    const handleCreateGame = async () => {
         effectSound.current.playSound(); // 이펙트 소리 재생
-        setTimeout(() => {
-            if (gameName && playerCount && votingTimeLimit) {
+        setTimeout(async () => {
+            if (gameName && playerCount) {
                 const newRoom = {
-                    id: Date.now(),
-                    name: gameName,
-                    playerCount,
-                    votingTimeLimit,
-                    description,
-                    topic: selectedTopic,
+                    roomName: gameName,
+                    playerNumber: playerCount,
+                    subject: selectedTopic,
+                    content: description,
                 };
-                if (typeof onCreate === 'function') {
-                    onCreate(newRoom);
-                    navigate(`/room/${newRoom.id}`, { state: newRoom });
-                } else {
-                    console.error('방추가실패');
+                console.log('게임 정보입니다.', newRoom);
+                try {
+                    const response = await axiosInstance.post(
+                        '/rooms',
+                        newRoom
+                    );
+                    if (response.data) {
+                        const roomData = response.data.data;
+
+                        setSaveRoom(roomData);
+
+                        console.log('방 생성 성공:', roomData);
+
+                        if (typeof onCreate === 'function') {
+                            onCreate(response.data);
+                        }
+
+                        navigate(`/room/${roomData.roomId}`, {
+                            state: response.data,
+                        });
+                    } else {
+                        console.error('방 생성 응답에 방 ID가 없습니다.');
+                    }
+                } catch (error) {
+                    console.error('방 생성 실패:', error);
                 }
             } else {
                 alert('항목들을 모두 입력해주세요.');
             }
         }, 140);
     };
+
+    useEffect(() => {
+        if (saveRoom) {
+            console.log(saveRoom);
+        }
+    }, [saveRoom]);
 
     const openGameRule = () => {
         effectSound.current.playSound();
@@ -92,24 +118,28 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
         effectSound.current.playSound();
         openSettings();
     };
+
     const handleCreateRoomClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/create-game');
         }, 140);
     };
+
     const handleLobbyClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/lobby');
         }, 140);
     };
+
     const handleHomeClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
             navigate('/');
         }, 140);
     };
+
     const handleRankingClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
@@ -225,7 +255,7 @@ const CreateGame = ({ onCreate, onClose, openSettings }) => {
                                     id="description"
                                     value={description}
                                     placeholder="최대 700자"
-                                    maxLength={900}
+                                    maxLength={700}
                                     onChange={(e) =>
                                         setDescription(e.target.value)
                                     }

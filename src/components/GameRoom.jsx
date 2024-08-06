@@ -4,7 +4,7 @@ import EffectSound from './EffectSound';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Player from '../components/Player';
 import logoImage from '../assets/logo.png';
-
+import axiosInstance from '../utils/apiConfig';
 import {
     Container,
     Header,
@@ -35,18 +35,27 @@ const GameRoom = ({ openSettings }) => {
     const effectSound = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
-    const roomData = location.state || {};
+    const roomData = location.state; // 전달된 상태를 받기
 
     const openGameRule = () => {
+        // console.log(roomData);
+
         effectSound.current.playSound();
         setIsGameRuleOpen(true);
     };
-    const lobby = () => {
+
+    const outRoom = async () => {
+        try {
+            if (roomData && roomData.roomId) {
+                await axiosInstance.post(`/rooms/${roomData.roomId}/exit`);
+                navigate('/lobby');
+            }
+        } catch (error) {
+            console.error('Failed to exit room:', error);
+        }
         effectSound.current.playSound();
-        setTimeout(() => {
-            navigate('/lobby');
-        }, 140);
     };
+
     const closeGameRule = () => {
         effectSound.current.playSound();
         setTimeout(() => {
@@ -57,24 +66,14 @@ const GameRoom = ({ openSettings }) => {
     const gameStartClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/game-start', {
-                state: {
-                    ...roomData,
-                    layers: [],
-                },
-            });
+            navigate('/game-start', { state: roomData });
         }, 140);
-    };
-
-    const gameReadyClick = () => {
-        effectSound.current.playSound();
-        setTimeout(() => {}, 140);
     };
 
     const handleRoomSettingsClick = () => {
         effectSound.current.playSound();
         setTimeout(() => {
-            navigate('/room-settings', { state: roomData });
+            navigate('/room-settings');
         }, 140);
     };
 
@@ -96,11 +95,11 @@ const GameRoom = ({ openSettings }) => {
                                     />
                                     <p className="miniTitle">[ 방 제목 ]</p>
                                 </LogoContainer>
-                                <GameName>{roomData.name}</GameName>
+                                <GameName>{roomData.data.roomName}</GameName>
                             </Logo>
                         </ProfileBack>
                         <DetailCategory>
-                            <ElementL onClick={lobby}>방 나가기</ElementL>
+                            <ElementL onClick={outRoom}>방 나가기</ElementL>
                             <ElementR onClick={handleRoomSettingsClick}>
                                 방 설정
                             </ElementR>
@@ -117,16 +116,13 @@ const GameRoom = ({ openSettings }) => {
                     </Category>
                     <Information>
                         <User>
-                            <Player />
+                            <Player players={roomData} />
                         </User>
                         <Description>
                             <MiniTitle>방 설명</MiniTitle>
-                            <Des>{roomData.description}</Des>
+                            <Des>{roomData.data.content}</Des>
                         </Description>
                         <Button>
-                            <ReadyButton onClick={gameReadyClick}>
-                                준비 {roomData.playerCount}
-                            </ReadyButton>
                             <StartButton onClick={gameStartClick}>
                                 게임 시작
                             </StartButton>
